@@ -1,0 +1,6 @@
+# 描述如何持续构建，支持各种语言，各种系统环境
+language: node_js
+node_js: 10
+script: npm run test
+notifications:
+  email: false

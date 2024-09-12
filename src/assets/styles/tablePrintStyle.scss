@@ -1,0 +1,19 @@
+table {
+  width: 100%;
+  color: #333;
+  border-width: 1px;
+  border-color: #666;
+  border-collapse: collapse;
+
+  th,
+  td {
+    border-width: 1px;
+    padding: 10px;
+    border-style: solid;
+    border-color: #666;
+    background-color: #fff;
+    line-height: 25px;
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+}

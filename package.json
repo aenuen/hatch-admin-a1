@@ -1,0 +1,103 @@
+{
+  "name": "tender-admin-a1",
+  "version": "1.0.0",
+  "description": "tender,admin",
+  "author": "aenuen<aenuen@qq.com>",
+  "scripts": {
+    "dev": "vue-cli-service serve",
+    "serve": "vue-cli-service serve",
+    "pro": "vue-cli-service build",
+    "build": "vue-cli-service build",
+    "new": "plop",
+    "lint": "eslint --ext .js,.vue src",
+    "rm:dist": "rimraf dist",
+    "rm:node": "rimraf node_modules"
+  },
+  "dependencies": {
+    "abbott-methods": "^1.0.1",
+    "axios": "0.26.0",
+    "clipboard": "2.0.11",
+    "crypto-js": "4.1.1",
+    "driver.js": "0.9.8",
+    "echarts": "5.3.3",
+    "element-ui": "2.15.8",
+    "file-saver": "2.0.5",
+    "fuse.js": "6.6.2",
+    "js-cookie": "3.0.1",
+    "jszip": "3.10.1",
+    "normalize.css": "8.0.1",
+    "nprogress": "0.2.0",
+    "path-to-regexp": "6.2.1",
+    "print-js": "^1.6.0",
+    "qs": "^6.11.0",
+    "screenfull": "4.2.0",
+    "script-loader": "^0.7.2",
+    "sortablejs": "1.15.0",
+    "vue": "2.6.14",
+    "vue-count-to": "1.0.13",
+    "vue-img-cutter": "3.0.2",
+    "vue-router": "3.0.2",
+    "vue-splitpane": "1.0.6",
+    "vuedraggable": "2.24.3",
+    "vuex": "3.6.2",
+    "xlsx": "0.18.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "4.5.15",
+    "@vue/cli-plugin-eslint": "4.5.15",
+    "@vue/cli-plugin-unit-jest": "4.5.15",
+    "@vue/cli-service": "4.5.15",
+    "@vue/test-utils": "1.3.0",
+    "autoprefixer": "9.5.1",
+    "babel-eslint": "10.1.0",
+    "babel-jest": "27.5.1",
+    "babel-plugin-dynamic-import-node": "2.3.3",
+    "core-js": "^3.29.0",
+    "eslint": "6.7.2",
+    "eslint-plugin-vue": "6.2.2",
+    "html-webpack-plugin": "5.5.0",
+    "husky": "^7.0.4",
+    "lint-staged": "12.3.4",
+    "plop": "3.1.1",
+    "rimraf": "^3.0.2",
+    "sass": "1.26.2",
+    "sass-loader": "8.0.2",
+    "script-ext-html-webpack-plugin": "2.1.5",
+    "serve-static": "1.15.0",
+    "svg-sprite-loader": "6.0.11",
+    "svgo": "2.8.0",
+    "vue-template-compiler": "2.6.14"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aenuen/20371-tender-admin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aenuen/20371-tender-admin/issues"
+  },
+  "homepage": "https://github.com/aenuen/20371-tender-admin#readme",
+  "engines": {
+    "node": ">=8.9",
+    "npm": ">= 3.0.0"
+  },
+  "keywords": [
+    "template",
+    "admin"
+  ],
+  "license": "MIT",
+  "lint-staged": {
+    "src/**/*.{js,vue}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}

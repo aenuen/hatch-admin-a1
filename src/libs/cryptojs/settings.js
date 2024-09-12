@@ -1,0 +1,3 @@
+// noinspection SpellCheckingInspection
+
+module.exports = 'eyJfaWRfIjoiYWJib3R0IiwiZXhwIjoxNjM3NTg2MTcxLCJpYXQiOjE2Mzc0OTk3NzF9'
