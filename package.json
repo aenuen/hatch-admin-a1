@@ -1,5 +1,5 @@
 {
-  "name": "tender-admin-a1",
+  "name": "hatch-admin-a1",
   "version": "1.0.0",
   "description": "tender,admin",
   "author": "aenuen<aenuen@qq.com>",
@@ -75,12 +75,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aenuen/20371-tender-admin.git"
+    "url": "git+https://github.com/aenuen/hatch-admin-a1.git"
   },
   "bugs": {
-    "url": "https://github.com/aenuen/20371-tender-admin/issues"
+    "url": "https://github.com/aenuen/hatch-admin-a1/issues"
   },
-  "homepage": "https://github.com/aenuen/20371-tender-admin#readme",
+  "homepage": "https://github.com/aenuen/hatch-admin-a1#readme",
   "engines": {
     "node": ">=8.9",
     "npm": ">= 3.0.0"

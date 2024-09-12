@@ -71,7 +71,7 @@
 import { userApi } from '@/api/user'
 // data
 import { fields } from '../modules/fields'
-import { rolesAry } from '../modules/roles'
+import { rolesAry } from '@/libs/roles'
 import { DetailRule as rulesForm, DetailPasswordRule as rulesPassword } from '../modules/rules'
 import { createDefaultData } from '../modules/default'
 // function

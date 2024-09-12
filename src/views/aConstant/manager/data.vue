@@ -48,7 +48,7 @@ import Avatar from './components/Avatar'
 import Email from './components/Email'
 import Mobile from './components/Mobile'
 // data
-import { rolesParse } from './modules/roles'
+import { rolesNameByValue } from '@/libs/roles'
 import NoneImage from '@/assets/image/noneImage.png'
 // filter
 // function
@@ -71,7 +71,7 @@ export default {
     ...mapGetters(['roles', 'petName', 'avatar'])
   },
   created() {
-    this.rolesCn = rolesParse(this.roles.join(','))
+    this.rolesCn = rolesNameByValue(this.roles.join(','))
   },
   methods: {
     setData() {

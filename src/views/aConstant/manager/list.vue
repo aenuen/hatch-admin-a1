@@ -68,7 +68,7 @@ import Pagination from '@/components/Pagination'
 import ListTable from './components/ListTable'
 // data
 import { fields } from './modules/fields'
-import { rolesAry, rolesObject, rolesParse } from './modules/roles'
+import { rolesAry, rolesObject, rolesNameByValue } from '@/libs/roles'
 // filter
 // function
 // mixin
@@ -84,7 +84,6 @@ export default {
   data() {
     return {
       fields,
-      rolesObject,
       defineIsUseAry,
       defineBooleanAry,
       exportObject: {
@@ -104,11 +103,11 @@ export default {
   computed: {
     rolesAry() {
       const newAry = []
-      for (let index = 0; index < rolesAry.length; index++) {
-        if (index !== 0 && index !== 1) {
-          newAry.push(rolesAry[index])
+      rolesAry.forEach((item) => {
+        if (item.value !== 'admin') {
+          newAry.push(item)
         }
-      }
+      })
       return newAry
     }
   },
@@ -136,7 +135,7 @@ export default {
             item.emailKeyword = keyLight(this.queryList, 'email', item.email)
             item.mobileKeyword = keyLight(this.queryList, 'mobile', item.mobile)
             const object = { roles: rolesObject[this.queryList.roles] || '' }
-            const roles = rolesParse(item.roles)
+            const roles = rolesNameByValue(item.roles)
             item.rolesKeyword = keyLight(object, 'roles', roles)
           })
         }
