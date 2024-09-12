@@ -39,7 +39,7 @@
 
 <script>
 // api
-import { userApi } from '@/api/user'
+import api from '@/api'
 // components
 // data
 import { fields } from '../modules/fields'
@@ -77,7 +77,7 @@ export default {
     },
     // 剪切成功
     onCutSuccess(res) {
-      userApi.avatarUpload({ id: this.aid, avatar: res.dataURL }).then(({ code, data, msg }) => {
+      api.user.avatarUpload({ id: this.aid, avatar: res.dataURL }).then(({ code, data, msg }) => {
         if (code === 200) {
           // 头像同步更新
           this.$store.commit('user/SET_AVATAR', data)
@@ -95,7 +95,7 @@ export default {
     },
     // 获取头像列表
     getAvatarList() {
-      userApi.avatarList({ id: this.aid }).then(({ code, data }) => {
+      api.user.avatarList({ id: this.aid }).then(({ code, data }) => {
         if (code === 200) {
           this.avatarList = data
         }
@@ -103,7 +103,7 @@ export default {
     },
     // 使用头像
     useTheAvatar(avatar) {
-      userApi.avatarUse({ id: this.aid, avatar }).then(({ msg, code }) => {
+      api.user.avatarUse({ id: this.aid, avatar }).then(({ msg, code }) => {
         if (code === 200) {
           this.$store.commit('user/SET_AVATAR', avatar)
           this.$message.success(msg)
@@ -118,7 +118,7 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          userApi.avatarRemove({ id: this.aid, avatar }).then(({ msg, code }) => {
+          api.user.avatarRemove({ id: this.aid, avatar }).then(({ msg, code }) => {
             if (code === 200) {
               const newAry = aoDeleteValue(this.avatarList, avatar)
               this.avatarList = [...newAry]

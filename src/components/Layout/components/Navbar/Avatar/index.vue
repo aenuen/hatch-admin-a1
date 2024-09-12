@@ -4,7 +4,7 @@
     <el-dropdown class="avatar-container hover-effect" trigger="click">
       <div class="avatar-wrapper" style="cursor: pointer">
         <el-avatar class="user-avatar" :size="35" :src="`${avatar}`" @error="true">
-          <img :src="noneImage">
+          <img :src="noneImage" />
         </el-avatar>
         <i class="el-icon-caret-bottom" />
       </div>
@@ -12,11 +12,11 @@
         <router-link to="/">
           <el-dropdown-item>首页</el-dropdown-item>
         </router-link>
-        <router-link to="/manager/data">
+        <router-link to="/user/data">
           <el-dropdown-item>个人资料</el-dropdown-item>
         </router-link>
         <el-dropdown-item divided @click.native="logout">
-          <span style="display:block;">退出登录</span>
+          <span style="display: block">退出登录</span>
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -31,18 +31,18 @@ export default {
   name: 'LayoutAvatar',
   data() {
     return {
-      noneImage
+      noneImage,
     }
   },
   computed: {
-    ...mapGetters(['avatar'])
+    ...mapGetters(['avatar']),
   },
   methods: {
     async logout() {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
-    }
-  }
+    },
+  },
 }
 </script>
 

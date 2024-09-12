@@ -61,7 +61,7 @@
 
 <script>
 // api
-import { userApi } from '@/api/user'
+import api from '@/api'
 // components
 import Dialog from '@/components/Dialog'
 import Pagination from '@/components/Pagination'
@@ -78,7 +78,7 @@ import Output from '@/components/Mixins/Output'
 import { defineIsUseAry, defineBooleanAry, keyLight } from 'abbott-methods/import'
 // settings
 export default {
-  name: 'ManagerList',
+  name: 'UserList',
   components: { Dialog, ListTable, Pagination },
   mixins: [ListMixin, Output],
   data() {
@@ -94,10 +94,10 @@ export default {
         roles: '角色',
         isAdmin: '是否后台管理员',
         isUse: '使用状态',
-        created: '创建时间'
+        created: '创建时间',
       },
       tableIsAdmin: [],
-      tableIsUse: []
+      tableIsUse: [],
     }
   },
   computed: {
@@ -109,18 +109,18 @@ export default {
         }
       })
       return newAry
-    }
+    },
   },
   methods: {
     // 初始设置
     setData() {
       return {
-        sort: '-id'
+        sort: '-id',
       }
     },
     // 获取列表
     startHandle() {
-      userApi.list(this.queryList).then((res) => {
+      api.user.list(this.queryList).then((res) => {
         const { code, data } = res
         const { list, count } = data
         if (code === 200) {
@@ -143,7 +143,7 @@ export default {
     },
     // 单个删除
     removeAlone() {
-      userApi.remove({ id: this.removeId }).then(({ code, msg }) => {
+      api.user.remove({ id: this.removeId }).then(({ code, msg }) => {
         if (code === 200) {
           this.$message.success(msg)
           this.removeId = 0
@@ -155,7 +155,7 @@ export default {
     },
     // 批量删除
     removeBatch() {
-      userApi.removeBatch({ ids: this.selectorAry }).then(({ msg, code }) => {
+      api.user.removeBatch({ ids: this.selectorAry }).then(({ msg, code }) => {
         if (code === 200) {
           this.$message.success(msg)
           this.selectorAry = []
@@ -168,7 +168,7 @@ export default {
     // 状态改变
     onIsUseChange(event, id) {
       event = event ? '1' : '0'
-      userApi.isUse({ id, event }).then((res) => {
+      api.user.isUse({ id, event }).then((res) => {
         const { data, msg } = res
         if (+data === 1) {
           this.$message.success(msg)
@@ -180,7 +180,7 @@ export default {
     // 管理员切换
     onIsAdminChange(event, id) {
       event = event ? '1' : '0'
-      userApi.isAdmin({ id, event }).then((res) => {
+      api.user.isAdmin({ id, event }).then((res) => {
         const { data, msg } = res
         if (+data === 1) {
           this.$message.success(msg)
@@ -188,7 +188,7 @@ export default {
           this.$message.info(msg)
         }
       })
-    }
-  }
+    },
+  },
 }
 </script>

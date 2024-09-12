@@ -31,7 +31,7 @@
 
 <script>
 // api
-import { userApi } from '@/api/user'
+import api from '@/api'
 // components
 // data
 import { fields } from '../modules/fields'
@@ -81,7 +81,7 @@ export default {
               const passwordNew = CryptoJsEncode(this.postForm.passwordNew)
               const passwordRep = CryptoJsEncode(this.postForm.passwordRep)
               const updateData = { id, passwordOld, passwordNew, passwordRep }
-              userApi
+              api.user
                 .password(updateData)
                 .then(({ code, msg }) => {
                   if (code === 200) {

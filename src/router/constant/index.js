@@ -3,25 +3,26 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 // 固定加载
-import homeRouter from './modules/home'
-import { loginRouter, httpRedirectRouter, authRedirectRouter } from './modules/login'
-import { errorPage401Router, errorPage404Router } from './modules/errorPage'
-import managerRouter from './modules/manager'
+import { home } from './modules/home'
+import { login, http, auth } from './modules/login'
+import { ep401, ep404 } from './modules/errorPage'
+import { user } from './modules/user'
 
 export const constantRoutes = [
-  loginRouter, // 登录
-  authRedirectRouter, // 身份重定向
-  httpRedirectRouter, // 网址重定向
-  errorPage401Router, // 401页面
-  errorPage404Router, // 404页面
-  homeRouter, // 首页
-  managerRouter // 管理员
+  login, // 登录
+  http, // 身份重定向
+  auth, // 网址重定向
+  ep401, // 401页面
+  ep404, // 404页面
+  home, // 首页
+  user // 管理员
 ]
 
-const createRouter = () => new Router({
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
-})
+const createRouter = () =>
+  new Router({
+    scrollBehavior: () => ({ y: 0 }),
+    routes: constantRoutes
+  })
 const router = createRouter()
 
 export function resetRouter() {

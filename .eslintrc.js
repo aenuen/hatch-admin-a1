@@ -20,7 +20,7 @@ module.exports = {
    */
   parserOptions: {
     sourceType: 'module', // 指定JS代码来源的类型，script（默认）| module（es6的module模块）。
-    parser: 'babel-eslint'
+    parser: 'babel-eslint',
   },
 
   /**
@@ -34,7 +34,7 @@ module.exports = {
   env: {
     browser: true,
     node: true,
-    es6: true
+    es6: true,
   },
 
   /**
@@ -87,7 +87,7 @@ module.exports = {
     camelcase: [0, { properties: 'always' }],
 
     // ‌去除最后的逗号
-    'comma-dangle': [2, 'never'],
+    'comma-dangle': 0,
 
     // 此规则关注逗号后的空格使用
     'comma-spacing': [2, { before: false, after: true }],
@@ -774,6 +774,6 @@ module.exports = {
     // - 如：‌[1, [ 2, 3 ], 4]。‌
     // -‌"objectsInArrays"‌：‌仅要求数组内的对象遵循规则。‌
     // - 如：‌[1, { a: 2 }, 3]。‌
-    'array-bracket-spacing': [2, 'never']
-  }
+    'array-bracket-spacing': [2, 'never'],
+  },
 }

@@ -1,5 +1,5 @@
 import { validateRequire, validateAllCn, validateEmail, validateMobile, validateUsername } from 'abbott-methods/import'
-import { fields } from '@/views/constant/manager/modules/fields'
+import { fields } from './fields'
 
 export const BaseDataRule = {
   petName: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.petName, '填写', 3, 20) }],

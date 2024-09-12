@@ -1,11 +1,12 @@
 import Layout from '@/components/Layout'
 
-export const loginRouter = {
+export const login = {
   path: '/login',
   component: () => import('@/views/constant/login'),
   hidden: true
 }
-export const httpRedirectRouter = {
+
+export const http = {
   path: '/redirect',
   component: Layout,
   hidden: true,
@@ -16,7 +17,7 @@ export const httpRedirectRouter = {
     }
   ]
 }
-export const authRedirectRouter = {
+export const auth = {
   path: '/auth-redirect',
   component: () => import('@/views/constant/redirect/auth'),
   hidden: true

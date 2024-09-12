@@ -1,6 +1,6 @@
 import Layout from '@/components/Layout'
 // 首页
-const homeRouter = {
+export const home = {
   path: '/',
   component: Layout,
   redirect: '/home',
@@ -13,5 +13,3 @@ const homeRouter = {
     }
   ]
 }
-
-export default homeRouter

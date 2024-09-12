@@ -1,4 +1,4 @@
-import { userApi } from '@/api/user'
+import api from '@/api'
 import { getToken, setToken, removeToken } from '@/libs/token'
 import router, { resetRouter } from '@/router/constant'
 
@@ -49,7 +49,7 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      userApi
+      api.user
         .login({
           username: username.trim(),
           password: password
@@ -72,7 +72,7 @@ const actions = {
   // 获取用户信息
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      userApi
+      api.user
         .info(state.token)
         .then(({ code, data }) => {
           if (code === 200) {
@@ -102,7 +102,7 @@ const actions = {
   // 刷新token
   refreshToken({ commit, state }) {
     return new Promise((resolve, reject) => {
-      userApi
+      api.user
         .refreshToken({ id: state.aid })
         .then(({ code, data }) => {
           if (code === 200) {

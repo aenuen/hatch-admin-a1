@@ -31,7 +31,7 @@
 
 <script>
 // api
-import { userApi } from '@/api/user'
+import api from '@/api'
 // components
 // data
 import { fields } from '../modules/fields'
@@ -71,7 +71,7 @@ export default {
         this.submitLoadingOpen()
         this.$refs.postForm.validate((valid, fields) => {
           if (valid) {
-            userApi
+            api.user
               .baseData(this.postForm)
               .then((res) => {
                 const { msg } = res

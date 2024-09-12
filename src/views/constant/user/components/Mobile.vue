@@ -24,7 +24,7 @@
 
 <script>
 // api
-import { userApi } from '@/api/user'
+import api from '@/api'
 // components
 // data
 import { fields } from '../modules/fields'
@@ -59,7 +59,7 @@ export default {
               this.submitLoadingClose()
             } else {
               this.postForm.id = this.aid
-              userApi
+              api.user
                 .mobile(this.postForm)
                 .then(({ code, msg }) => {
                   if (code === 200) {

@@ -68,7 +68,7 @@
 
 <script>
 // api
-import { userApi } from '@/api/user'
+import api from '@/api'
 // data
 import { fields } from '../modules/fields'
 import { rolesAry } from '@/libs/roles'
@@ -88,7 +88,7 @@ export default {
   name: 'PersonalDetail',
   mixins: [DetailMixin, MethodsMixin],
   props: {
-    isUpdate: Boolean
+    isUpdate: Boolean,
   },
   data() {
     return {
@@ -96,8 +96,8 @@ export default {
       rulesForm,
       rulesPassword,
       postForm: {
-        roles: ['user']
-      }
+        roles: ['user'],
+      },
     }
   },
   computed: {
@@ -121,7 +121,7 @@ export default {
     },
     submitText() {
       return this.isUpdate ? '编辑用户' : '新增用户'
-    }
+    },
   },
   created() {
     const setDefault = false
@@ -142,7 +142,7 @@ export default {
   methods: {
     // 获取数据
     getData() {
-      userApi
+      api.user
         .detail({ id: this.updateId })
         .then(({ data, code, msg }) => {
           if (code === 200) {
@@ -176,7 +176,7 @@ export default {
               data = this.postForm
             }
             if (this.isUpdate) {
-              userApi
+              api.user
                 .update(data)
                 .then(({ code, msg }) => {
                   if (code === 200) {
@@ -190,12 +190,12 @@ export default {
                   this.submitLoadingClose()
                 })
             } else {
-              userApi
+              api.user
                 .create(data)
                 .then(({ code, msg }) => {
                   if (code === 200) {
                     this.submitHandle(msg)
-                    this.routerClose('/manager/list')
+                    this.routerClose('/user/list')
                   } else {
                     this.submitLoading = false
                   }
@@ -209,8 +209,8 @@ export default {
           }
         })
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

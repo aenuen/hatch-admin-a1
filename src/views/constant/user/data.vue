@@ -64,11 +64,11 @@ export default {
   data() {
     return {
       rolesCn: '',
-      NoneImage
+      NoneImage,
     }
   },
   computed: {
-    ...mapGetters(['roles', 'petName', 'avatar'])
+    ...mapGetters(['roles', 'petName', 'avatar']),
   },
   created() {
     this.rolesCn = rolesNameByValue(this.roles.join(','))
@@ -76,14 +76,14 @@ export default {
   methods: {
     setData() {
       return {
-        activeTab: 'password'
+        activeTab: 'password',
       }
     },
     tabsClick(tabs) {
       this.queryList.activeTab = tabs.name
       this.refresh()
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>
