@@ -13,7 +13,7 @@ export const user = {
   children: [
     {
       path: 'list',
-      name: 'userList',
+      name: 'user-list',
       component: () => import('@/views/constant/user/list'),
       meta: {
         title: '用户列表',
@@ -22,7 +22,7 @@ export const user = {
     },
     {
       path: 'create',
-      name: 'userCreate',
+      name: 'user-create',
       component: () => import('@/views/constant/user/create'),
       meta: {
         title: '新建用户',
@@ -31,7 +31,7 @@ export const user = {
     },
     {
       path: 'update/:id',
-      name: 'userUpdate',
+      name: 'user-update',
       component: () => import('@/views/constant/user/update'),
       meta: {
         title: '用户编辑',
@@ -42,10 +42,10 @@ export const user = {
     },
     {
       path: 'data',
-      name: 'personalData',
+      name: 'user-data',
       component: () => import('@/views/constant/user/data'),
       meta: {
-        title: '个人资料',
+        title: '用户资料',
       },
       hidden: true,
     },

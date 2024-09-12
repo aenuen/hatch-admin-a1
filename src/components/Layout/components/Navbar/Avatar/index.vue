@@ -13,7 +13,7 @@
           <el-dropdown-item>首页</el-dropdown-item>
         </router-link>
         <router-link to="/user/data">
-          <el-dropdown-item>个人资料</el-dropdown-item>
+          <el-dropdown-item>我的资料</el-dropdown-item>
         </router-link>
         <el-dropdown-item divided @click.native="logout">
           <span style="display: block">退出登录</span>

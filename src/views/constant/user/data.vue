@@ -6,7 +6,7 @@
           <div class="user-data">
             <el-card style="margin-bottom: 20px">
               <div slot="header" class="clearfix">
-                <span>个人资料</span>
+                <span>我的资料</span>
               </div>
               <div class="box-center">
                 <el-avatar :size="100" :src="avatar" @error="true">

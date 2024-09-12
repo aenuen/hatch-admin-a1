@@ -1,16 +1,16 @@
 import Layout from '@/components/Layout'
 
-export const icons = {
-  path: '/svgIcon',
+export const dict = {
+  path: '/dict',
   component: Layout,
   children: [
     {
       path: 'index',
-      name: 'savIcon',
-      component: () => import('@/views/constant/icons'),
+      name: 'dict-list',
+      component: () => import('@/views/dict/list'),
       meta: {
-        title: '图标浏览',
-        icon: 'icon',
+        title: '词典管理',
+        icon: 'dict',
         roles: ['admin'],
         noCache: true,
       },
