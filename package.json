@@ -69,10 +69,6 @@
     "svgo": "2.8.0",
     "vue-template-compiler": "2.6.14"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/aenuen/hatch-admin-a1.git"

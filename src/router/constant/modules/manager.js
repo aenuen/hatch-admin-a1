@@ -1,7 +1,10 @@
 import Layout from '@/components/Layout'
 
 const managerRouter = {
-  path: '/manager', name: 'manager', component: Layout, redirect: '/manager/list',
+  path: '/manager',
+  name: 'manager',
+  component: Layout,
+  redirect: '/manager/list',
   meta: {
     title: '用户管理',
     icon: 'peoples',
@@ -9,21 +12,27 @@ const managerRouter = {
   },
   children: [
     {
-      path: 'list', name: 'managerList', component: () => import('@/views/aConstant/manager/list'),
+      path: 'list',
+      name: 'managerList',
+      component: () => import('@/views/constant/manager/list'),
       meta: {
         title: '用户列表',
         roles: ['manager']
       }
     },
     {
-      path: 'create', name: 'managerCreate', component: () => import('@/views/aConstant/manager/create'),
+      path: 'create',
+      name: 'managerCreate',
+      component: () => import('@/views/constant/manager/create'),
       meta: {
         title: '新建用户',
         roles: ['manager']
       }
     },
     {
-      path: 'update/:id', name: 'managerUpdate', component: () => import('@/views/aConstant/manager/update'),
+      path: 'update/:id',
+      name: 'managerUpdate',
+      component: () => import('@/views/constant/manager/update'),
       meta: {
         title: '用户编辑',
         roles: ['manager'],
@@ -32,7 +41,9 @@ const managerRouter = {
       hidden: true
     },
     {
-      path: 'data', name: 'personalData', component: () => import('@/views/aConstant/manager/data'),
+      path: 'data',
+      name: 'personalData',
+      component: () => import('@/views/constant/manager/data'),
       meta: {
         title: '个人资料'
       },

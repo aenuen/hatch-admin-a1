@@ -1,5 +1,5 @@
 import { validateRequire, validateAllCn, validateEmail, validateMobile, validateUsername } from 'abbott-methods/import'
-import { fields } from '@/views/aConstant/manager/modules/fields'
+import { fields } from '@/views/constant/manager/modules/fields'
 
 export const BaseDataRule = {
   petName: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.petName, '填写', 3, 20) }],
@@ -29,20 +29,24 @@ export const DetailRule = {
 }
 
 export const DetailPasswordRule = {
-  updatePassword: [{
-    validator: (rule, value, callback) => {
-      if (!value) {
-        callback()
-      } else {
-        if (value.length < 6 || value.length > 20) {
-          callback(new Error(`密码在6-20个字符之间`))
-        } else {
+  updatePassword: [
+    {
+      validator: (rule, value, callback) => {
+        if (!value) {
           callback()
+        } else {
+          if (value.length < 6 || value.length > 20) {
+            callback(new Error(`密码在6-20个字符之间`))
+          } else {
+            callback()
+          }
         }
       }
     }
-  }],
-  createPassword: [{
-    validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.password, '填写', 6, 20)
-  }]
+  ],
+  createPassword: [
+    {
+      validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.password, '填写', 6, 20)
+    }
+  ]
 }
