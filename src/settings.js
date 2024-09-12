@@ -1,7 +1,6 @@
-
-const servePort = 20370
-const adminPort = 20371
-const title = '标书制作'
+const servePort = 20380
+const adminPort = 20381
+const title = '焦作市综合服务与产业孵化平台'
 const isDevMode = process.env.NODE_ENV === 'development'
 module.exports = {
   port: adminPort, // 项目端口

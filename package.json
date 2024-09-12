@@ -11,7 +11,8 @@
     "new": "plop",
     "lint": "eslint --ext .js,.vue src",
     "rm:dist": "rimraf dist",
-    "rm:node": "rimraf node_modules"
+    "rm:node": "rimraf node_modules",
+    "clean": "git config --global core.autocrlf true"
   },
   "dependencies": {
     "abbott-methods": "^1.0.1",

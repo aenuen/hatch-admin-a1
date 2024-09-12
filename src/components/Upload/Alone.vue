@@ -52,7 +52,7 @@ import FileShow from '@/components/FileShow'
 // function
 // mixin
 // plugins
-import { getToken } from '@/libs/utils/token'
+import { getToken } from '@/libs/token'
 import { fileClassify } from 'abbott-methods/import'
 // settings
 import { apiBaseUrl } from '@/libs/axios/settings'

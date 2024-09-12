@@ -5,8 +5,8 @@ import store from './store'
 import { Message } from 'element-ui'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { getToken } from '@/libs/utils/token'
-import pageTitle from '@/libs/utils/pageTitle'
+import { getToken } from '@/libs/token'
+import pageTitle from '@/libs/pageTitle'
 
 NProgress.configure({ showSpinner: false }) // 隐藏右侧旋转的小圆环
 const whiteList = ['/login', '/auth-redirect'] // 设置白名单
@@ -14,13 +14,16 @@ router.beforeEach(async (to, from, next) => {
   NProgress.start()
   document.title = pageTitle(to.meta.title) // 设置title
   const hasToken = getToken() // 从cookie中去拿token
-  if (hasToken) { // 有token
+  if (hasToken) {
+    // 有token
     if (to.path === '/login') {
       next({ path: '/' }) // 目标是登录页面直接进入首页
       NProgress.done()
-    } else { //
+    } else {
+      //
       const hasRoles = store.getters.roles && store.getters.roles.length > 0 // 去拿角色
-      if (hasRoles) { // 有角色直接进去
+      if (hasRoles) {
+        // 有角色直接进去
         next()
       } else {
         try {
@@ -37,7 +40,8 @@ router.beforeEach(async (to, from, next) => {
       }
     }
   } else {
-    if (whiteList.indexOf(to.path) !== -1) { // 在白名单中
+    if (whiteList.indexOf(to.path) !== -1) {
+      // 在白名单中
       next()
     } else {
       next(`/login?redirect=${to.path}`) // 否则中转带参数跳转到登录页面

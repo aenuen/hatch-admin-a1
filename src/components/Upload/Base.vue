@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { getToken } from '@/libs/utils/token'
+import { getToken } from '@/libs/token'
 
 export default {
   name: 'UploadDefault',

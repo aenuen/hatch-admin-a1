@@ -1,5 +1,5 @@
 import { userApi } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/libs/utils/token'
+import { getToken, setToken, removeToken } from '@/libs/token'
 import router, { resetRouter } from '@/router/constant'
 
 const state = {
@@ -49,77 +49,84 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      userApi.login({
-        username: username.trim(),
-        password: password
-      }).then(({
-        code,
-        data: { token }
-      }) => {
-        if (code === 200) {
-          commit('SET_TOKEN', token)
-          setToken(token)
-          resolve()
-        } else {
-          reject('登录失败')
-        }
-      }).catch(error => {
-        reject(error)
-      })
+      userApi
+        .login({
+          username: username.trim(),
+          password: password
+        })
+        .then(({ code, data }) => {
+          if (code === 200) {
+            const { token } = data
+            commit('SET_TOKEN', token)
+            setToken(token)
+            resolve()
+          } else {
+            reject('登录失败')
+          }
+        })
+        .catch((error) => {
+          reject(error)
+        })
     })
   },
   // 获取用户信息
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      userApi.info(state.token).then(({ code, data }) => {
-        if (code === 200) {
-          data || reject('验证失败，请重新登录。')
-          const { roles, id, petName, realName, email, mobile, avatar, introduction } = data
-          if (!roles || roles.length <= 0) {
-            reject('您的用户没有任务的权限')
+      userApi
+        .info(state.token)
+        .then(({ code, data }) => {
+          if (code === 200) {
+            data || reject('验证失败，请重新登录。')
+            const { roles, id, petName, realName, email, mobile, avatar, introduction } = data
+            if (!roles || roles.length <= 0) {
+              reject('您的用户没有任务的权限')
+            }
+            commit('SET_ROLES', roles)
+            commit('SET_AID', id)
+            commit('SET_PetNAME', petName)
+            commit('SET_RealNAME', realName)
+            commit('SET_EMAIL', email)
+            commit('SET_MOBILE', mobile)
+            commit('SET_AVATAR', avatar)
+            commit('SET_INTRODUCTION', introduction)
+            resolve(data)
+          } else {
+            reject('获取用户信息失败')
           }
-          commit('SET_ROLES', roles)
-          commit('SET_AID', id)
-          commit('SET_PetNAME', petName)
-          commit('SET_RealNAME', realName)
-          commit('SET_EMAIL', email)
-          commit('SET_MOBILE', mobile)
-          commit('SET_AVATAR', avatar)
-          commit('SET_INTRODUCTION', introduction)
-          resolve(data)
-        } else {
-          reject('获取用户信息失败')
-        }
-      }).catch(error => {
-        reject(error)
-      })
+        })
+        .catch((error) => {
+          reject(error)
+        })
     })
   },
   // 刷新token
   refreshToken({ commit, state }) {
     return new Promise((resolve, reject) => {
-      userApi.refreshToken({ id: state.aid }).then(({ code, data }) => {
-        if (code === 200) {
-          data || reject('验证失败，请重新登录。')
-          const { roles, id, petName, realName, email, mobile, avatar, introduction } = data
-          if (!roles || roles.length <= 0) {
-            reject('您的用户没有任务的权限')
+      userApi
+        .refreshToken({ id: state.aid })
+        .then(({ code, data }) => {
+          if (code === 200) {
+            data || reject('验证失败，请重新登录。')
+            const { roles, id, petName, realName, email, mobile, avatar, introduction } = data
+            if (!roles || roles.length <= 0) {
+              reject('您的用户没有任务的权限')
+            }
+            commit('SET_ROLES', roles)
+            commit('SET_AID', id)
+            commit('SET_PetNAME', petName)
+            commit('SET_RealNAME', realName)
+            commit('SET_EMAIL', email)
+            commit('SET_MOBILE', mobile)
+            commit('SET_AVATAR', avatar)
+            commit('SET_INTRODUCTION', introduction)
+            resolve(data)
+          } else {
+            reject('获取用户信息失败')
           }
-          commit('SET_ROLES', roles)
-          commit('SET_AID', id)
-          commit('SET_PetNAME', petName)
-          commit('SET_RealNAME', realName)
-          commit('SET_EMAIL', email)
-          commit('SET_MOBILE', mobile)
-          commit('SET_AVATAR', avatar)
-          commit('SET_INTRODUCTION', introduction)
-          resolve(data)
-        } else {
-          reject('获取用户信息失败')
-        }
-      }).catch(error => {
-        reject(error)
-      })
+        })
+        .catch((error) => {
+          reject(error)
+        })
     })
   },
   // 用户登出
@@ -139,7 +146,7 @@ const actions = {
   },
   // 移除token
   removeToken({ commit }) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
       removeToken()
