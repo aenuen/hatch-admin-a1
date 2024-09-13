@@ -1,14 +1,23 @@
 <template>
-  <div class="app-container"></div>
+  <div class="app-container">
+    <div class="filter-container">
+      <!-- 类型 -->
+      <el-select v-model="queryList.type" class="filter-ele" :placeholder="fields.type" clearable @clear="handleFilter" @change="handleFilter">
+        <el-option v-for="(item, key) in newsTypeAry" :key="key" :value="String(item.value)" :label="item.label" />
+      </el-select>
+    </div>
+  </div>
 </template>
 <script>
 // api
+import api from '@/api'
 // components
 // data
+import { fields } from './modules/fields'
 // filter
 // function
+import { gainDictList } from '@/libs/dict'
 // mixin
-import DetailMixin from '@/components/Mixins/DetailMixin'
 import MethodsMixin from '@/components/Mixins/MethodsMixin'
 import ListMixin from '@/components/Mixins/ListMixin'
 // plugins
@@ -16,12 +25,20 @@ import ListMixin from '@/components/Mixins/ListMixin'
 export default {
   name: 'ArticleList',
   components: {},
-  mixins: [DetailMixin, MethodsMixin, ListMixin],
+  mixins: [MethodsMixin, ListMixin],
   data() {
-    return {}
+    return {
+      api,
+      fields,
+      newsTypeAry: [],
+    }
   },
   created() {},
-  methods: {},
+  methods: {
+    async startHandle() {
+      this.newsTypeAry = await gainDictList('newsType')
+    },
+  },
 }
 </script>
 <style lang="scss" scoped></style>

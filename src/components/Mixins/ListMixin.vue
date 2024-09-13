@@ -12,11 +12,10 @@ export default {
       // 单选
       removeId: 0, // 单个删除的ID
       updateId: 0, // 单个编辑的ID
-      updateShow: false, // 单个编辑显示
       // 多选
       selectorAry: [], // 多选数组值
       selectorShow: false, // 多选显示
-      updateBatchShow: false // 批量编辑显示
+      updateBatchShow: false, // 批量编辑显示
     }
   },
   mounted() {
@@ -40,7 +39,7 @@ export default {
       const sort = query && query.sort ? query.sort : this.defaultTableSort
       const pageSet = {
         page: query && query.page ? ~~query.page : 1,
-        pageSize: query && query.pageSize ? ~~query.pageSize : 20
+        pageSize: query && query.pageSize ? ~~query.pageSize : 20,
       }
       const queryList = { page: 1, pageSize: 10, sort }
       this.queryList = { ...queryList, ...this.setData(), ...query, ...pageSet }
@@ -71,12 +70,6 @@ export default {
       this.queryList.sort = (order === 'descending' ? `-` : `+`) + `${prop}`
       this.handleFilter()
     },
-    // 单个编辑成功
-    updateAloneSuccess() {
-      this.updateId = 0
-      this.updateShow = false
-      this.refreshStrong()
-    },
     // 单个删除
     onRemoveAlone(id) {
       this.removeId = id
@@ -85,7 +78,7 @@ export default {
     // 单个删除确定
     removeAloneConfirm() {
       this.$confirm('删除后将无法恢复，确定继续删除吗？', '温馨提示', {
-        type: 'warning'
+        type: 'warning',
       })
         .then(() => {
           this.removeAlone()
@@ -123,7 +116,7 @@ export default {
     removeBatchConfirm() {
       if (this.selectorAry.length > 0) {
         this.$confirm('删除后将无法恢复，确定继续批量删除吗？', '温馨提示', {
-          type: 'warning'
+          type: 'warning',
         })
           .then(() => {
             this.removeBatch()
@@ -133,12 +126,12 @@ export default {
           })
       } else {
         this.$message.info('请选择需要批量删除的内容', '温馨提示', {
-          type: 'warning'
+          type: 'warning',
         })
       }
     },
     // 开始批量删除
-    removeBatch() {}
-  }
+    removeBatch() {},
+  },
 }
 </script>

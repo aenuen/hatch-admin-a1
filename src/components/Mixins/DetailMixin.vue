@@ -8,7 +8,8 @@ export default {
       rulesForm: {},
       labelWidth: '120px',
       submitLoading: false,
-      updateId: 0
+      updateId: 0,
+      submitText: '提交',
     }
   },
   created() {
@@ -32,7 +33,7 @@ export default {
       const msg = validateErrMsg(fields)
       this.$message.error(msg)
       this.submitLoadingClose()
-    }
-  }
+    },
+  },
 }
 </script>
