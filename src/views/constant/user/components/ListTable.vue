@@ -66,7 +66,7 @@
 // components
 // data
 import { fields } from '../modules/fields'
-import noneImage from '@/assets/image/noneImage.png'
+import noneImage from '@/assets/images/noneImage.png'
 // filter
 import { Y_M_D_H_I_Filter } from '@/libs/filter'
 // function
@@ -77,7 +77,7 @@ import TableMixin from '@/components/Mixins/TableMixin'
 export default {
   name: 'ListTable',
   filters: {
-    Y_M_D_H_I_Filter
+    Y_M_D_H_I_Filter,
   },
   mixins: [TableMixin],
   props: {
@@ -85,12 +85,12 @@ export default {
     tableSort: { type: Object, default: () => {} },
     tableData: { type: Array, default: () => [] },
     isAdmin: { type: Array, default: () => [] },
-    isUse: { type: Array, default: () => [] }
+    isUse: { type: Array, default: () => [] },
   },
   data() {
     return {
       fields,
-      noneImage
+      noneImage,
     }
   },
   methods: {
@@ -99,7 +99,7 @@ export default {
     },
     onIsUseChange(event, id) {
       this.$emit('onIsUseChange', event, id)
-    }
-  }
+    },
+  },
 }
 </script>

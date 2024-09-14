@@ -25,7 +25,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import noneImage from '@/assets/image/noneImage.png'
+import noneImage from '@/assets/images/noneImage.png'
 
 export default {
   name: 'LayoutAvatar',

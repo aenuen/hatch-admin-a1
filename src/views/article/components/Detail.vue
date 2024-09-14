@@ -1,6 +1,7 @@
 <template>
   <div class="app-container">
     <el-form ref="postForm" :model="postForm" :rules="rulesForm">
+      <!-- 标题 -->
       <el-row>
         <el-col>
           <el-form-item prop="title" :label="fields.title" :label-width="labelWidth">
@@ -8,6 +9,15 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <!-- 封面文件 -->
+      <el-row v-if="isUpdate">
+        <el-col>
+          <el-form-item prop="cover" :label="fields.cover" :label-width="labelWidth">
+            <Multi ref="Multi" :file-action="fileAction" :file-limit="1" :file-accept="fileAccept" :file-data="fileData" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <!-- 类型 -->
       <el-row>
         <el-col>
           <el-form-item prop="type" :label="fields.type" :label-width="labelWidth">
@@ -17,6 +27,7 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <!-- 关键字 -->
       <el-row>
         <el-col>
           <el-form-item prop="keyword" :label="fields.keyword" :label-width="labelWidth">
@@ -24,6 +35,7 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <!-- 描述 -->
       <el-row>
         <el-col>
           <el-form-item prop="desc" :label="fields.desc" :label-width="labelWidth">
@@ -31,6 +43,16 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <!-- 内容 -->
+      <el-row>
+        <el-col>
+          <el-form-item prop="content" :label="fields.content" :label-width="labelWidth" style="position: relative">
+            <ImageSelect />
+            <VueEditor v-model="postForm.content" :placeholder="fields.content" :style="commonFormItem" use-custom-image-handler @image-added="handleImageUpload" @image-removed="handleImageRemove" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <!-- 提交 -->
       <el-form-item :label-width="labelWidth">
         <el-button type="primary" :loading="submitLoading" :disabled="submitLoading" @click="submitFrom">
           {{ submitText }}
@@ -43,6 +65,8 @@
 // api
 import api from '@/api'
 // components
+import Multi from '@/components/Upload/Multi'
+import ImageSelect from '@/components/ImageSelect'
 // data
 import { fields } from '../modules/fields.js'
 // filter
@@ -51,25 +75,66 @@ import { gainDictList } from '@/libs/dict'
 // mixin
 import DetailMixin from '@/components/Mixins/DetailMixin'
 import MethodsMixin from '@/components/Mixins/MethodsMixin'
+import FormMixin from '@/components/Mixins/FormMixin'
 // plugins
+import { defineAccept } from 'abbott-methods/import'
+import { VueEditor } from 'vue2-editor'
 // settings
 export default {
   name: 'ArticleDetail',
-  components: {},
-  mixins: [DetailMixin, MethodsMixin],
+  components: { Multi, VueEditor, ImageSelect },
+  mixins: [DetailMixin, MethodsMixin, FormMixin],
+  props: {
+    isUpdate: { type: Boolean, default: false },
+  },
   data() {
     return {
       api,
       fields,
       newsTypeAry: [],
+      fileAction: '/article/cover',
+      fileAccept: defineAccept(['jpg', 'jpeg', 'gif', 'png']),
     }
+  },
+  computed: {
+    editor() {
+      return {
+        width: '950px',
+        height: '500px',
+      }
+    },
+    fileData() {
+      return {
+        id: this.updateId,
+      }
+    },
   },
   created() {},
   methods: {
     async startHandle() {
       this.newsTypeAry = await gainDictList('newsType')
     },
-    submitFrom() {},
+    handleImageUpload(file, Editor, cursorLocation, resetUploader) {
+      const formData = new FormData()
+      formData.append('file', file)
+      api.article
+        .image(formData)
+        .then(({ code, data, msg }) => {
+          if (code === 200) {
+            Editor.insertEmbed(cursorLocation, 'image', data)
+            resetUploader()
+            this.$message.success(msg)
+          } else {
+            this.$message.error(msg)
+          }
+        })
+        .catch(() => {
+          resetUploader()
+          this.$message.error('上传失败，请稍候再试…')
+        })
+    },
+    handleImageRemove() {},
+    submitHandle() {},
   },
 }
 </script>

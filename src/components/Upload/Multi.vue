@@ -3,13 +3,10 @@
     <div class="uploadList">
       <div v-for="(item, key) in fileList" :key="key" class="item" :style="wha50">
         <div class="line">
-          <div class="file" :style="wh">
-            <el-image v-if="fileClassify(item.url) === 'pic'" :src="getFullUrl(item.url)" fit="cover" :style="wh" />
-            <el-image v-else-if="fileClassify(item.url) === 'doc'" :src="fileClassify(item.url)" fit="fit" :style="wh" />
-          </div>
+          <ImageType :width="width" :height="height" :url="item.url" />
           <div class="mask" :style="wh" />
           <div class="icon">
-            <span v-if="fileClassify(item.url) === 'pic'" @click="onUploadPreview(getFullUrl(item.url))">
+            <span v-if="fileType(item.url) === 'pic'" @click="onUploadPreview(getFullUrl(item.url))">
               <i class="el-icon-zoom-in" />
             </span>
             <span v-else @click="onUploadDownload(item.url)">
@@ -23,11 +20,11 @@
         <div class="name" :style="whh50">{{ item.fileName }}</div>
       </div>
       <el-dialog v-if="dialogVisible" :visible.sync="dialogVisible">
-        <img width="100%" :src="dialogImageUrl" alt="" />
+        <img width="100%" :src="dialogImageUrl" />
       </el-dialog>
     </div>
     <div class="load" :style="wha50">
-      <el-upload v-if="fileLimit > fileList.length" ref="multi" class="uploaderItem" :limit="fileLimit" :multiple="false" :action="fileAction" :headers="headers" :accept="fileAccept" :data="fileData" :show-file-list="false" :on-success="onSuccess" :before-upload="onBeforeUpload" :on-error="onUploadError" :style="wh" :auto-upload="auto">
+      <el-upload v-if="fileLimit > fileList.length" ref="multi" class="uploaderItem" :limit="fileLimit" :multiple="false" :action="action" :headers="headers" :accept="fileAccept" :data="fileData" :show-file-list="false" :on-success="onSuccess" :before-upload="onBeforeUpload" :on-error="onUploadError" :style="wh" :auto-upload="auto" :on-change="onChange">
         <i class="el-icon-plus uploaderIcon" :style="wh" />
         <div v-if="progress" class="progress">
           <el-progress type="circle" :percentage="percentage" :width="width" />
@@ -39,21 +36,19 @@
 <script>
 // api
 // components
+import ImageType from '@/components/ImageType'
 // data
 // filter
 // function
 // mixin
-import FileType from '@/components/Mixins/FileType'
 // plugins
-import { getToken } from '@/libs/utils/token'
-import { fileClassify, fileSave } from 'abbott-methods/import'
+import { getToken } from '@/libs/token'
+import { fileType, formatExternal } from 'abbott-methods/import'
 // settings
-import { serveUrl } from '@/settings'
-import { guaranteeApi } from '@/api/guarantee'
+import { apiBaseUrl } from '@/settings'
 export default {
   name: 'ComponentsUploadMulti',
-  components: {},
-  mixins: [FileType],
+  components: { ImageType },
   props: {
     fileList: { type: Array, default: () => [] },
     fileAction: { type: String, default: '' },
@@ -67,7 +62,7 @@ export default {
   },
   data() {
     return {
-      fileClassify,
+      fileType,
       dialogVisible: '',
       dialogImageUrl: '',
       percentage: 0,
@@ -77,8 +72,11 @@ export default {
   computed: {
     headers() {
       return {
-        Authorization: `${getToken()}`,
+        Authorization: `Bearer ${getToken()}`,
       }
+    },
+    action() {
+      return formatExternal(this.fileAction) ? this.fileAction : `${apiBaseUrl}${this.fileAction}`
     },
     wh() {
       return { width: this.width + 'px', height: this.height + 'px' }
@@ -92,11 +90,6 @@ export default {
   },
   created() {},
   methods: {
-    // 获取网址
-    getFullUrl(url) {
-      const arr = url.split('/')
-      return `${serveUrl}/file/images/${arr[arr.length - 1]}`
-    },
     // 上传成功
     onSuccess({ code, data }, file) {
       if (code === 200) {
@@ -112,6 +105,9 @@ export default {
         this.progress = false
         this.percentage = 0
       }, 500)
+    },
+    onChange(file, fileList) {
+      // 点击上传动作
     },
     // 上传错误
     onUploadError() {
@@ -145,10 +141,7 @@ export default {
     },
     // 下载
     onUploadDownload(url) {
-      guaranteeApi.download({ path: url }).then(({ code, data, msg }) => {
-        fileSave(Date.now(), 'docx', data)
-        this.$message.success('下载成功')
-      })
+      this.$emit('onUploadDownload', url)
     },
     // 删除
     onUploadRemove(fileId) {

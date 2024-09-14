@@ -35,24 +35,24 @@ import { CryptoJsEncode } from '@/libs/cryptojs'
 export default {
   name: 'LoginForm',
   props: {
-    loginForm: { type: Object, required: true }
+    loginForm: { type: Object, required: true },
   },
   data() {
     return {
       loginRules: {
-        username: [{ validator: validateUsername }],
+        username: [{ validator: (rule, value, callback) => validateUsername(rule, value, callback, '用户名') }],
         password: [
           {
-            validator: (rule, value, callback) => validateRequire(rule, value, callback, '密码', 6, 20)
-          }
-        ]
+            validator: (rule, value, callback) => validateRequire(rule, value, callback, '密码', 6, 20),
+          },
+        ],
       },
       passwordType: 'password',
       capsTooltip: false,
       loading: false,
       showDialog: false,
       redirect: undefined,
-      otherQuery: {}
+      otherQuery: {},
     }
   },
   mounted() {
@@ -78,7 +78,7 @@ export default {
           this.loading = true
           const newLoginForm = {
             username: CryptoJsEncode(this.loginForm.username),
-            password: CryptoJsEncode(this.loginForm.password)
+            password: CryptoJsEncode(this.loginForm.password),
           }
           this.$store
             .dispatch('user/login', newLoginForm)
@@ -93,8 +93,8 @@ export default {
           return false
         }
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

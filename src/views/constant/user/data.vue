@@ -49,7 +49,7 @@ import Email from './components/Email'
 import Mobile from './components/Mobile'
 // data
 import { rolesNameByValue } from '@/libs/roles'
-import NoneImage from '@/assets/image/noneImage.png'
+import NoneImage from '@/assets/images/noneImage.png'
 // filter
 // function
 // mixin

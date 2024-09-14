@@ -17,7 +17,7 @@ export default {
     layout: { type: String, default: 'total, sizes, prev, pager, next, jumper' },
     background: { type: Boolean, default: true },
     autoScroll: { type: Boolean, default: true },
-    hidden: { type: Boolean, default: false }
+    hidden: { type: Boolean, default: false },
   },
   computed: {
     currentPage: {
@@ -26,7 +26,7 @@ export default {
       },
       set(val) {
         this.$emit('update:page', val)
-      }
+      },
     },
     pageSize: {
       get() {
@@ -34,8 +34,8 @@ export default {
       },
       set(val) {
         this.$emit('update:limit', val)
-      }
-    }
+      },
+    },
   },
   methods: {
     handleSizeChange(val) {
@@ -49,8 +49,8 @@ export default {
       if (this.autoScroll) {
         scrollTo(0, 800)
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
