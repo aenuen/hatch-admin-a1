@@ -54,12 +54,13 @@ import { rules as rulesForm } from '../modules/rules.js'
 // mixin
 import DetailMixin from '@/components/Mixins/DetailMixin'
 import MethodsMixin from '@/components/Mixins/MethodsMixin'
+import FormMixin from '@/components/Mixins/FormMixin'
 // plugins
 // settings
 export default {
   name: 'DictCDetail',
   components: {},
-  mixins: [DetailMixin, MethodsMixin],
+  mixins: [DetailMixin, MethodsMixin, FormMixin],
   props: {
     parentId: { type: Number, default: 0 },
     parentName: { type: String, default: '1' },
@@ -75,6 +76,7 @@ export default {
     }
   },
   methods: {
+    // 开始处理
     startHandle() {
       this.submitText = this.isUpdate ? '修改' : '添加'
       const data = {}
@@ -86,7 +88,7 @@ export default {
         this.getDetail()
       }
     },
-    // 详情
+    // 获取详情
     getDetail() {
       api.dict.detail({ id: this.updateId }).then(({ code, data, msg }) => {
         if (code === 200) {
@@ -97,35 +99,28 @@ export default {
       })
     },
     // 提交
-    submitFrom() {
-      this.$refs.postForm.validate((valid, fields) => {
-        this.submitLoadingOpen()
-        if (valid) {
-          if (this.isUpdate) {
-            api.dict.update(this.postForm).then(({ code, data, msg }) => {
-              if (code === 200) {
-                this.$message.success(msg)
-                this.$emit('successCreate', data)
-              } else {
-                this.$message.error(msg)
-              }
-            })
-            this.submitLoadingClose()
+    submitHandle() {
+      if (this.isUpdate) {
+        api.dict.update(this.postForm).then(({ code, data, msg }) => {
+          if (code === 200) {
+            this.$message.success(msg)
+            this.$emit('successCreate', data)
           } else {
-            api.dict.create(this.postForm).then(({ code, data, msg }) => {
-              if (code === 200) {
-                this.$message.success(msg)
-                this.$emit('successCreate', data)
-              } else {
-                this.$message.error(msg)
-              }
-            })
-            this.submitLoadingClose()
+            this.$message.error(msg)
           }
-        } else {
-          this.validateErrHandle(fields)
-        }
-      })
+        })
+        this.submitLoadingClose()
+      } else {
+        api.dict.create(this.postForm).then(({ code, data, msg }) => {
+          if (code === 200) {
+            this.$message.success(msg)
+            this.$emit('successCreate', data)
+          } else {
+            this.$message.error(msg)
+          }
+        })
+        this.submitLoadingClose()
+      }
     },
   },
 }

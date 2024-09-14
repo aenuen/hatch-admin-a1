@@ -1,0 +1,101 @@
+.uploadMulti {
+  display: flex;
+  padding: 0 10px;
+
+  .uploadList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    .item {
+      margin-right: 20px;
+      margin-top: 10px;
+
+      .line {
+        position: relative;
+        &:hover {
+            .mask,
+            .icon {
+              display: block;
+            }
+          }
+        .mask {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: rgb(0, 0, 0, 0.3);
+          }
+
+          .icon {
+            display: none;
+            width: 100%;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            margin-top: -10px;
+
+            span {
+              margin: 0 5px;
+              cursor: pointer;
+              color: #fff;
+              line-height: 30px;
+              font-size: 18px;
+            }
+          }
+      }
+
+      .name {
+        line-height: 20px;
+        font-size: 12px;
+        text-align: center;
+        overflow: hidden;
+        color: #666;
+      }
+    }
+  }
+
+  .load {
+    padding-bottom: 50px;
+    margin-right: 20px;
+    margin-top: 10px;
+
+    .uploaderItem {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        position: relative;
+        overflow: hidden;
+        margin-top: 10px;
+        cursor: pointer;
+
+        &:hover {
+          border-color: #1890ff;
+        }
+
+        .el-upload:hover {
+          border-color: #1890ff;
+        }
+
+        .progress {
+          position: absolute;
+          left: 0;
+          top: 0;
+          background: #fff;
+          width: 100px;
+          height: 100px;
+        }
+
+        .uploaderIcon {
+          font-size: 28px;
+          color: #8c939d;
+          line-height: 100px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+  }
+}

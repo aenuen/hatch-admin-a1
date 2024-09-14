@@ -12,6 +12,13 @@ export default {
       submitText: '提交',
     }
   },
+  computed: {
+    commonFormItem() {
+      return {
+        width: '500px',
+      }
+    },
+  },
   created() {
     const updateId = +this.$route.params.id
     if (this.isUpdate && updateId > 0) {
