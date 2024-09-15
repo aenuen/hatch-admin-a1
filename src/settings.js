@@ -1,4 +1,3 @@
-const servePort = 20380
 const adminPort = 20381
 const title = '焦作市综合服务与产业孵化平台'
 const isDevMode = process.env.NODE_ENV === 'development'
@@ -12,5 +11,5 @@ module.exports = {
   errorLog: 'development', // 使用errorLog的模式(可使用数组,如:['development','production'])
   cryptoJsSecretKey: 'SecretKey', // CryptoJs加密Key
   isDevMode,
-  apiBaseUrl: isDevMode ? `http://localhost:${servePort}` : `http://localhost:${servePort}`
+  apiBaseUrl: process.env.VUE_APP_BASE_API,
 }

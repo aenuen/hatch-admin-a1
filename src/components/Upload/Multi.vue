@@ -6,7 +6,7 @@
           <ImageType :width="width" :height="height" :url="item.url" />
           <div class="mask" :style="wh" />
           <div class="icon">
-            <span v-if="fileType(item.url) === 'pic'" @click="onUploadPreview(getFullUrl(item.url))">
+            <span v-if="fileType(item.url) === 'pic'" @click="onUploadPreview(item.url)">
               <i class="el-icon-zoom-in" />
             </span>
             <span v-else @click="onUploadDownload(item.url)">
@@ -20,10 +20,10 @@
         <div class="name" :style="whh50">{{ item.fileName }}</div>
       </div>
       <el-dialog v-if="dialogVisible" :visible.sync="dialogVisible">
-        <img width="100%" :src="dialogImageUrl" />
+        <img width="100%" :src="dialogImageUrl" style="max-width: 950px" />
       </el-dialog>
     </div>
-    <div class="load" :style="wha50">
+    <div class="load" :style="wh">
       <el-upload v-if="fileLimit > fileList.length" ref="multi" class="uploaderItem" :limit="fileLimit" :multiple="false" :action="action" :headers="headers" :accept="fileAccept" :data="fileData" :show-file-list="false" :on-success="onSuccess" :before-upload="onBeforeUpload" :on-error="onUploadError" :style="wh" :auto-upload="auto" :on-change="onChange">
         <i class="el-icon-plus uploaderIcon" :style="wh" />
         <div v-if="progress" class="progress">
@@ -93,7 +93,6 @@ export default {
     // 上传成功
     onSuccess({ code, data }, file) {
       if (code === 200) {
-        this.isUpdate = false
         if (typeof data === 'string') {
           data = { url: data }
         }
@@ -145,7 +144,15 @@ export default {
     },
     // 删除
     onUploadRemove(fileId) {
-      this.$emit('onUploadRemove', fileId)
+      this.$confirm('删除后将无法恢复，确定继续删除吗？', '温馨提示', {
+        type: 'warning',
+      })
+        .then(() => {
+          this.$emit('onUploadRemove', fileId)
+        })
+        .catch(() => {
+          this.$message.info('取消删除')
+        })
     },
   },
 }

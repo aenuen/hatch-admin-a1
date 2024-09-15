@@ -74,6 +74,7 @@ export default {
       }, 100)
     },
     popupOpen() {
+      this.startHandle()
       this.popupVisible = true
     },
     popupClose() {

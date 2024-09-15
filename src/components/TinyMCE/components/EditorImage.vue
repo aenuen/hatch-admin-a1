@@ -16,20 +16,22 @@ import { defineAccept } from 'abbott-methods/import'
 export default {
   name: 'EditorSlideUpload',
   props: {
-    color: { type: String, default: '#1890ff' }
+    color: { type: String, default: '#1890ff' },
   },
   data() {
     return {
       dialogVisible: false,
       listObj: {},
       fileList: [],
-      fileAccept: defineAccept(['jpg', 'jpeg', 'gif', 'png'])
+      fileAccept: defineAccept(['jpg', 'jpeg', 'gif', 'png']),
     }
   },
   methods: {
+    // 检查是否所有图片都上传成功
     checkAllSuccess() {
       return Object.keys(this.listObj).every((item) => this.listObj[item].hasSuccess)
     },
+    // 确认按钮点击事件
     handleSubmit() {
       const arr = Object.keys(this.listObj).map((v) => this.listObj[v])
       if (!this.checkAllSuccess()) {
@@ -41,6 +43,7 @@ export default {
       this.fileList = []
       this.dialogVisible = false
     },
+    // 上传图片成功回调事件
     handleSuccess(response, file) {
       const uid = file.uid
       const objKeyArr = Object.keys(this.listObj)
@@ -62,6 +65,7 @@ export default {
         }
       }
     },
+    // 上传图片前的钩子函数
     beforeUpload(file) {
       const _self = this
       const _URL = window.URL || window.webkitURL
@@ -71,12 +75,17 @@ export default {
         const img = new Image()
         img.src = _URL.createObjectURL(file)
         img.onload = () => {
-          _self.listObj[fileName] = { hasSuccess: false, uid: file.uid, width: this.width, height: this.height }
+          _self.listObj[fileName] = {
+            hasSuccess: false,
+            uid: file.uid,
+            width: this.width,
+            height: this.height,
+          }
         }
         resolve(true)
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

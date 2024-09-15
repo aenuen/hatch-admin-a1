@@ -8,17 +8,11 @@
 </template>
 
 <script>
-/**
- * docs:
- * https://panjiachen.github.io/vue-element-admin-site/feature/component/rich-editor.html#tinymce
- */
-import editorImage from './EditorImage'
-import plugins from './plugins'
-import toolbar from './toolbar'
-import load from './dynamicLoadScript'
-
-// why use this cdn, detail see https://github.com/PanJiaChen/tinymce-all-in-one
-const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
+import editorImage from './components/EditorImage'
+import plugins from './modules/plugins'
+import toolbar from './modules/toolbar'
+import loadJs from './modules/loadJs'
+const tinymceCDN = '/plugins/tinymce/tinymce.min.js'
 
 export default {
   name: 'Tinymce',
@@ -29,7 +23,7 @@ export default {
     toolbar: { type: Array, required: false, default: () => [] },
     menubar: { type: String, default: 'file edit insert view format table' },
     height: { type: [Number, String], required: false, default: 360 },
-    width: { type: [Number, String], required: false, default: 'auto' }
+    width: { type: [Number, String], required: false, default: 'auto' },
   },
   data() {
     return {
@@ -37,25 +31,24 @@ export default {
       hasInit: false,
       tinymceId: this.id,
       fullscreen: false,
-      languageTypeList: { en: 'en', zh: 'zh_CN', es: 'es_MX', ja: 'ja' }
+      languageTypeList: { en: 'en', zh: 'zh_CN', es: 'es_MX', ja: 'ja' },
     }
   },
   computed: {
     containerWidth() {
       const width = this.width
       if (/^[\d]+(\.[\d]+)?$/.test(width)) {
-        // matches `100`, `'100'`
         return `${width}px`
       }
       return width
-    }
+    },
   },
   watch: {
     value(val) {
       if (!this.hasChange && this.hasInit) {
         this.$nextTick(() => window.tinymce.get(this.tinymceId).setContent(val || ''))
       }
-    }
+    },
   },
   mounted() {
     this.init()
@@ -73,8 +66,7 @@ export default {
   },
   methods: {
     init() {
-      // dynamic load tinymce from cdn
-      load(tinymceCDN, (err) => {
+      loadJs(tinymceCDN, (err) => {
         if (err) {
           this.$message.error(err.message)
           return
@@ -102,7 +94,7 @@ export default {
         imagetools_cors_hosts: ['www.tinymce.com', 'codepen.io'],
         default_link_target: '_blank',
         link_title: false,
-        nonbreaking_force_tab: true, // inserting nonbreaking space &nbsp; need Nonbreaking Space Plugin
+        nonbreaking_force_tab: true,
         init_instance_callback: (editor) => {
           if (_this.value) {
             editor.setContent(_this.value)
@@ -118,10 +110,7 @@ export default {
             _this.fullscreen = e.state
           })
         },
-        // it will try to keep these URLs intact
-        // https://www.tiny.cloud/docs-3x/reference/configuration/Configuration3x@convert_urls/
-        // https://stackoverflow.com/questions/5196205/disable-tinymce-absolute-to-relative-url-conversions
-        convert_urls: false
+        convert_urls: false,
         // 整合七牛上传
         // images_dataimg_filter(img) {
         //   setTimeout(() => {
@@ -175,8 +164,8 @@ export default {
     },
     imageSuccessCBK(arr) {
       arr.forEach((v) => window.tinymce.get(this.tinymceId).insertContent(`<img class="wscnph" src="${v.url}" >`))
-    }
-  }
+    },
+  },
 }
 </script>
 

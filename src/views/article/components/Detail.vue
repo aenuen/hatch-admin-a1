@@ -48,7 +48,7 @@
         <el-col>
           <el-form-item prop="content" :label="fields.content" :label-width="labelWidth" style="position: relative">
             <ImageSelect />
-            <VueEditor v-model="postForm.content" :placeholder="fields.content" :style="commonFormItem" use-custom-image-handler @image-added="handleImageUpload" @image-removed="handleImageRemove" />
+            <TinyMCE :style="commonFormItem" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -67,6 +67,7 @@ import api from '@/api'
 // components
 import Multi from '@/components/Upload/Multi'
 import ImageSelect from '@/components/ImageSelect'
+import TinyMCE from '@/components/TinyMCE'
 // data
 import { fields } from '../modules/fields.js'
 // filter
@@ -78,11 +79,10 @@ import MethodsMixin from '@/components/Mixins/MethodsMixin'
 import FormMixin from '@/components/Mixins/FormMixin'
 // plugins
 import { defineAccept } from 'abbott-methods/import'
-import { VueEditor } from 'vue2-editor'
 // settings
 export default {
   name: 'ArticleDetail',
-  components: { Multi, VueEditor, ImageSelect },
+  components: { Multi, ImageSelect, TinyMCE },
   mixins: [DetailMixin, MethodsMixin, FormMixin],
   props: {
     isUpdate: { type: Boolean, default: false },
@@ -92,7 +92,7 @@ export default {
       api,
       fields,
       newsTypeAry: [],
-      fileAction: '/article/cover',
+      fileAction: '/article/coverUpload',
       fileAccept: defineAccept(['jpg', 'jpeg', 'gif', 'png']),
     }
   },
@@ -118,7 +118,7 @@ export default {
       const formData = new FormData()
       formData.append('file', file)
       api.article
-        .image(formData)
+        .imageUpload(formData)
         .then(({ code, data, msg }) => {
           if (code === 200) {
             Editor.insertEmbed(cursorLocation, 'image', data)
