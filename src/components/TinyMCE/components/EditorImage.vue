@@ -14,7 +14,7 @@
 <script>
 import { defineAccept } from 'abbott-methods/import'
 export default {
-  name: 'EditorSlideUpload',
+  name: 'EditorImage',
   props: {
     color: { type: String, default: '#1890ff' },
   },

@@ -6,10 +6,10 @@
           <ImageType :width="width" :height="height" :url="item.url" />
           <div class="mask" :style="wh" />
           <div class="icon">
-            <span v-if="fileType(item.url) === 'pic'" @click="onUploadPreview(item.url)">
+            <span v-if="fileType(item.url) === 'pic' || /^blob/.test(item.url)" @click="onUploadPreview(item.url)">
               <i class="el-icon-zoom-in" />
             </span>
-            <span v-else @click="onUploadDownload(item.url)">
+            <span v-else @click="onUploadDownload(item.url, key)">
               <i class="el-icon-download" />
             </span>
             <span @click="onUploadRemove(item.fileId)">
@@ -24,7 +24,24 @@
       </el-dialog>
     </div>
     <div class="load" :style="wh">
-      <el-upload v-if="fileLimit > fileList.length" ref="multi" class="uploaderItem" :limit="fileLimit" :multiple="false" :action="action" :headers="headers" :accept="fileAccept" :data="fileData" :show-file-list="false" :on-success="onSuccess" :before-upload="onBeforeUpload" :on-error="onUploadError" :style="wh" :auto-upload="auto" :on-change="onChange">
+      <el-upload
+        v-if="fileLimit > fileList.length"
+        ref="multiUploader"
+        class="uploaderItem"
+        :limit="fileLimit"
+        :multiple="multiple"
+        :action="action"
+        :headers="headers"
+        :accept="fileAccept"
+        :data="fileData"
+        :show-file-list="false"
+        :on-success="onSuccess"
+        :before-upload="onBeforeUpload"
+        :on-error="onUploadError"
+        :style="wh"
+        :auto-upload="fileAuto"
+        :on-change="onChange"
+      >
         <i class="el-icon-plus uploaderIcon" :style="wh" />
         <div v-if="progress" class="progress">
           <el-progress type="circle" :percentage="percentage" :width="width" />
@@ -56,9 +73,9 @@ export default {
     fileData: { type: Object, default: () => {} },
     fileExceed: { type: Number, default: 2 },
     fileLimit: { type: Number, default: 5 },
+    fileAuto: { type: Boolean, default: true },
     width: { type: Number, default: 100 },
     height: { type: Number, default: 100 },
-    auto: { type: Boolean, default: true },
   },
   data() {
     return {
@@ -74,6 +91,9 @@ export default {
       return {
         Authorization: `Bearer ${getToken()}`,
       }
+    },
+    multiple() {
+      return this.fileLimit > 1
     },
     action() {
       return formatExternal(this.fileAction) ? this.fileAction : `${apiBaseUrl}${this.fileAction}`
@@ -105,8 +125,13 @@ export default {
         this.percentage = 0
       }, 500)
     },
+    // 选中文件
     onChange(file, fileList) {
-      // 点击上传动作
+      console.log('🚀 ~ onChange ~ fileList', fileList)
+      if (!this.fileAuto) {
+        const url = URL.createObjectURL(file.raw)
+        this.fileList.push({ url, fileName: file.name })
+      }
     },
     // 上传错误
     onUploadError() {
@@ -143,12 +168,16 @@ export default {
       this.$emit('onUploadDownload', url)
     },
     // 删除
-    onUploadRemove(fileId) {
+    onUploadRemove(fileId, index) {
       this.$confirm('删除后将无法恢复，确定继续删除吗？', '温馨提示', {
         type: 'warning',
       })
         .then(() => {
-          this.$emit('onUploadRemove', fileId)
+          if (this.fileAuto) {
+            this.$emit('onUploadRemove', fileId, index)
+          } else {
+            this.fileList.splice(index, 1)
+          }
         })
         .catch(() => {
           this.$message.info('取消删除')

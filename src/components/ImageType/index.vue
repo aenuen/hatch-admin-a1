@@ -1,6 +1,7 @@
 <template>
   <div class="file" :style="wh">
-    <el-image v-if="fileType(url) === 'pic'" :src="url" fit="cover" :style="wh" />
+    <el-image v-if="/^blob/.test(url)" :src="url" fit="cover" :style="wh" />
+    <el-image v-else-if="fileType(url) === 'pic'" :src="url" fit="cover" :style="wh" />
     <el-image v-else-if="fileType(url) === 'doc'" :src="doc" fit="fit" :style="wh" />
   </div>
 </template>

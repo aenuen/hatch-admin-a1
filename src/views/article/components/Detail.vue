@@ -10,10 +10,10 @@
         </el-col>
       </el-row>
       <!-- 封面文件 -->
-      <el-row v-if="isUpdate">
+      <el-row>
         <el-col>
           <el-form-item prop="cover" :label="fields.cover" :label-width="labelWidth">
-            <Multi ref="Multi" :file-action="fileAction" :file-limit="1" :file-accept="fileAccept" :file-data="fileData" />
+            <Multi ref="Multi" :file-list="fileList" :file-action="fileAction" :file-limit="5" :file-accept="fileAccept" :file-data="fileData" :file-auto="isUpdate" @onUploadAddItem="onUploadAddItem" @onUploadRemove="onUploadRemove" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -92,6 +92,8 @@ export default {
       api,
       fields,
       newsTypeAry: [],
+      fileAuto: false,
+      fileList: [],
       fileAction: '/article/coverUpload',
       fileAccept: defineAccept(['jpg', 'jpeg', 'gif', 'png']),
     }
@@ -113,6 +115,16 @@ export default {
   methods: {
     async startHandle() {
       this.newsTypeAry = await gainDictList('newsType')
+    },
+    onUploadAddItem(item) {
+      this.fileList.push(item)
+    },
+    onUploadRemove(id, index) {
+      if (this.isUpdate) {
+        //
+      } else {
+        this.fileList.splice(index, 1)
+      }
     },
     handleImageUpload(file, Editor, cursorLocation, resetUploader) {
       const formData = new FormData()

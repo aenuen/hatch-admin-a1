@@ -39,7 +39,7 @@ export default {
       const sort = query && query.sort ? query.sort : this.defaultTableSort
       const pageSet = {
         page: query && query.page ? ~~query.page : 1,
-        pageSize: query && query.pageSize ? ~~query.pageSize : 20,
+        pageSize: query && query.pageSize ? ~~query.pageSize : 10,
       }
       const queryList = { page: 1, pageSize: 10, sort }
       this.queryList = { ...queryList, ...this.setData(), ...query, ...pageSet }
@@ -57,7 +57,8 @@ export default {
       this.refresh()
     },
     // 刷新
-    refresh() {
+    refresh(query) {
+      this.queryList = query ? { ...this.queryList, page: query.page, pageSize: query.limit } : this.queryList
       this.$router.push({ path: this.$route.path, query: this.queryList })
     },
     // 强制刷新

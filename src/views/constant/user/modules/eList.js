@@ -1,12 +1,6 @@
 import { fields } from './fields'
 
-export const eFields = [
-  'id',
-  'username',
-  'petName',
-  'realName',
-  'created'
-]
+export const eFields = ['id', 'username', 'petName', 'realName', 'created']
 
 export const eHeader = () => {
   const result = []
@@ -15,4 +9,3 @@ export const eHeader = () => {
   })
   return result
 }
-

@@ -56,7 +56,7 @@
       </template>
     </el-table-column>
     <el-table-column :label="fields.created" align="center">
-      <template slot-scope="{ row: { created } }">{{ created | Y_M_D_H_I_Filter }}</template>
+      <template slot-scope="{ row: { created } }">{{ created | dateFilter }}</template>
     </el-table-column>
   </el-table>
 </template>
@@ -68,7 +68,7 @@
 import { fields } from '../modules/fields'
 import noneImage from '@/assets/images/noneImage.png'
 // filter
-import { Y_M_D_H_I_Filter } from '@/libs/filter'
+import { dateFilter } from '@/libs/filter'
 // function
 // mixin
 import TableMixin from '@/components/Mixins/TableMixin'
@@ -77,7 +77,7 @@ import TableMixin from '@/components/Mixins/TableMixin'
 export default {
   name: 'ListTable',
   filters: {
-    Y_M_D_H_I_Filter,
+    dateFilter,
   },
   mixins: [TableMixin],
   props: {

@@ -1,4 +1,4 @@
-import { timeFormat, timeGetDate, H_Y_M_D_H_I } from 'abbott-methods/import'
+import { timeGetDate } from 'abbott-methods/import'
 /**
  * @description 空值
  * @param value
@@ -14,13 +14,4 @@ export const emptyValueFilter = (value) => {
  */
 export const dateFilter = (value) => {
   return timeGetDate(value)
-}
-
-/**
- * @description Y_M_D_H_I
- * @param {string|number} value
- * @returns
- */
-export const Y_M_D_H_I_Filter = (value) => {
-  return timeFormat(value, H_Y_M_D_H_I)
 }

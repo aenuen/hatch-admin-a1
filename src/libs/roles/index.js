@@ -5,7 +5,7 @@
 export const rolesAry = [
   { value: 'admin', label: '超级管理员', code: 9 },
   { value: 'manager', label: '管理员', code: 8 },
-  { value: 'user', label: '普通用户', code: 0 }
+  { value: 'user', label: '普通用户', code: 0 },
 ]
 
 /**
