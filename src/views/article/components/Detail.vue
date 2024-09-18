@@ -13,7 +13,7 @@
       <el-row>
         <el-col>
           <el-form-item prop="cover" :label="fields.cover" :label-width="labelWidth">
-            <Multi ref="Multi" :file-list="fileList" :file-action="fileAction" :file-limit="5" :file-accept="fileAccept" :file-data="fileData" :file-auto="isUpdate" @onUploadAddItem="onUploadAddItem" @onUploadRemove="onUploadRemove" />
+            <Multi ref="Multi" :file-list="fileList" :file-action="fileAction" :file-limit="1" :file-accept="fileAccept" :file-data="fileData" :file-auto="isUpdate" @onUploadCreate="onUploadCreate" @onUploadRemove="onUploadRemove" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -48,7 +48,7 @@
         <el-col>
           <el-form-item prop="content" :label="fields.content" :label-width="labelWidth" style="position: relative">
             <ImageSelect />
-            <TinyMCE :style="commonFormItem" />
+            <TinyMCE v-model="postForm.content" :style="commonFormItem" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -70,6 +70,7 @@ import ImageSelect from '@/components/ImageSelect'
 import TinyMCE from '@/components/TinyMCE'
 // data
 import { fields } from '../modules/fields.js'
+import { rules as rulesForm } from '../modules/rules.js'
 // filter
 // function
 import { gainDictList } from '@/libs/dict'
@@ -91,9 +92,10 @@ export default {
     return {
       api,
       fields,
+      rulesForm,
       newsTypeAry: [],
-      fileAuto: false,
       fileList: [],
+      fileAry: [],
       fileAction: '/article/coverUpload',
       fileAccept: defineAccept(['jpg', 'jpeg', 'gif', 'png']),
     }
@@ -114,16 +116,19 @@ export default {
   created() {},
   methods: {
     async startHandle() {
+      this.submitText = this.isUpdate ? '编辑' : '添加'
       this.newsTypeAry = await gainDictList('newsType')
     },
-    onUploadAddItem(item) {
-      this.fileList.push(item)
+    // 添加一个文件
+    onUploadCreate(ary) {
+      if (!this.isUpdate) {
+        this.fileAry = ary
+      }
     },
-    onUploadRemove(id, index) {
-      if (this.isUpdate) {
-        //
-      } else {
-        this.fileList.splice(index, 1)
+    // 删除一个文件
+    onUploadRemove(ary) {
+      if (!this.isUpdate) {
+        this.fileAry = ary
       }
     },
     handleImageUpload(file, Editor, cursorLocation, resetUploader) {
@@ -146,7 +151,36 @@ export default {
         })
     },
     handleImageRemove() {},
-    submitHandle() {},
+    // 提交处理
+    submitHandle() {
+      const formData = new FormData()
+      formData.append('title', this.postForm.title)
+      formData.append('type', this.postForm.type)
+      formData.append('keyword', this.postForm.keyword)
+      formData.append('desc', this.postForm.desc)
+      formData.append('content', this.postForm.content)
+      if (this.isUpdate) {
+        //
+      } else {
+        this.fileAry.forEach((file) => {
+          formData.append('files[]', file.raw)
+        })
+        api.article
+          .create(formData)
+          .then(({ code, data, msg }) => {
+            if (code === 200) {
+              this.$message.success(msg)
+              this.routerClose('/article/list')
+            } else {
+              this.$message.error(msg)
+            }
+            this.submitLoadingClose()
+          })
+          .catch(() => {
+            this.submitLoadingClose()
+          })
+      }
+    },
   },
 }
 </script>

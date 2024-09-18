@@ -80,6 +80,7 @@ export default {
   data() {
     return {
       fileType,
+      fileAry: [],
       dialogVisible: '',
       dialogImageUrl: '',
       percentage: 0,
@@ -127,8 +128,9 @@ export default {
     },
     // 选中文件
     onChange(file, fileList) {
-      console.log('🚀 ~ onChange ~ fileList', fileList)
       if (!this.fileAuto) {
+        this.fileAry.push(file)
+        this.$emit('onUploadCreate', this.fileAry)
         const url = URL.createObjectURL(file.raw)
         this.fileList.push({ url, fileName: file.name })
       }
@@ -174,9 +176,11 @@ export default {
       })
         .then(() => {
           if (this.fileAuto) {
-            this.$emit('onUploadRemove', fileId, index)
+            this.fileList.splice(index, 1)
           } else {
             this.fileList.splice(index, 1)
+            this.fileAry.splice(index, 1)
+            this.$emit('onUploadRemove', this.fileAry)
           }
         })
         .catch(() => {

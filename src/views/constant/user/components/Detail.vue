@@ -73,7 +73,6 @@ import api from '@/api'
 import { fields } from '../modules/fields'
 import { rolesAry } from '@/libs/roles'
 import { DetailRule as rulesForm, DetailPasswordRule as rulesPassword } from '../modules/rules'
-import { createDefaultData } from '../modules/default'
 // function
 import { CryptoJsEncode } from '@/libs/cryptojs'
 // mixin
@@ -82,8 +81,6 @@ import MethodsMixin from '@/components/Mixins/MethodsMixin'
 // plugins
 import { mapGetters } from 'vuex'
 // settings
-import { isDevMode } from '@/settings'
-
 export default {
   name: 'PersonalDetail',
   mixins: [DetailMixin, MethodsMixin],
@@ -119,15 +116,9 @@ export default {
       }
       return newAry
     },
-    submitText() {
-      return this.isUpdate ? '编辑用户' : '新增用户'
-    },
   },
   created() {
-    const setDefault = false
-    if (isDevMode && setDefault) {
-      this.postForm = { ...this.postForm, ...createDefaultData }
-    }
+    this.submitText = this.isUpdate ? '编辑用户' : '新增用户'
   },
   mounted() {
     const updateId = +this.$route.params.id

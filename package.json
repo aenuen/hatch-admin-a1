@@ -8,6 +8,8 @@
     "serve": "vue-cli-service serve",
     "pro": "vue-cli-service build",
     "build": "vue-cli-service build",
+    "pro:stage": "vue-cli-service build --mode staging",
+    "build:stage": "vue-cli-service build --mode staging",
     "new": "plop",
     "lint": "eslint --ext .js,.vue src",
     "rm:dist": "rimraf dist",

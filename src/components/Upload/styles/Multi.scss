@@ -8,7 +8,6 @@
 
     .item {
       margin-right: 10px;
-      margin-bottom: 10px;
 
       .line {
         position: relative;
@@ -60,14 +59,12 @@
   .load {
     padding-bottom: 50px;
     margin-right: 10px;
-    margin-bottom: 10px;
 
     .uploaderItem {
       border: 1px dashed #d9d9d9;
       border-radius: 6px;
       position: relative;
       overflow: hidden;
-      margin-top: 10px;
       cursor: pointer;
 
       &:hover {

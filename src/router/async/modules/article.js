@@ -25,7 +25,7 @@ export const article = {
       name: 'article-create',
       component: () => import('@/views/article/create'),
       meta: {
-        title: '新建文章',
+        title: '文章添加',
         roles: ['user'],
       },
     },

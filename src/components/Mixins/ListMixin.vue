@@ -126,13 +126,53 @@ export default {
             this.$message.info('取消批量删除')
           })
       } else {
-        this.$message.info('请选择需要批量删除的内容', '温馨提示', {
+        this.$message.info('请选择需要批量删除的数据', '温馨提示', {
           type: 'warning',
         })
       }
     },
     // 开始批量删除
     removeBatch() {},
+    // 批量启用确认
+    isUseOpenBatchConfirm() {
+      if (this.selectorAry.length > 0) {
+        this.$confirm('确定继续批量启用吗？', '温馨提示', {
+          type: 'warning',
+        })
+          .then(() => {
+            this.isUseOpenBatch()
+          })
+          .catch(() => {
+            this.$message.info('取消批量启用')
+          })
+      } else {
+        this.$message.info('请选择需要批量启用的数据', '温馨提示', {
+          type: 'warning',
+        })
+      }
+    },
+    // 开始批量启用
+    isUseOpenBatch() {},
+    // 批量启用确认
+    isUseCloseBatchConfirm() {
+      if (this.selectorAry.length > 0) {
+        this.$confirm('确定继续批量禁用吗？', '温馨提示', {
+          type: 'warning',
+        })
+          .then(() => {
+            this.isUseCloseBatch()
+          })
+          .catch(() => {
+            this.$message.info('取消批量禁用')
+          })
+      } else {
+        this.$message.info('请选择需要批量禁用的数据', '温馨提示', {
+          type: 'warning',
+        })
+      }
+    },
+    // 开始批量启用
+    isUseCloseBatch() {},
   },
 }
 </script>

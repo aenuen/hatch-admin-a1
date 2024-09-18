@@ -1,24 +1,39 @@
 <template>
   <div class="file" :style="wh">
-    <el-image v-if="/^blob/.test(url)" :src="url" fit="cover" :style="wh" />
-    <el-image v-else-if="fileType(url) === 'pic'" :src="url" fit="cover" :style="wh" />
-    <el-image v-else-if="fileType(url) === 'doc'" :src="doc" fit="fit" :style="wh" />
+    <!-- blob模式 -->
+    <el-image v-if="/^blob/.test(url)" :src="url" fit="cover" :style="wh" class="hasView" @click="viewImageOpen">
+      <div slot="error">
+        <img :src="noneImage" :style="wh" />
+      </div>
+    </el-image>
+    <!-- 无后缀名时 -->
+    <el-image v-else-if="!fileSuffixName(url)" fit="cover" :style="wh">
+      <div slot="error">
+        <img :src="noneImage" :style="wh" />
+      </div>
+    </el-image>
+    <!-- 图片类型 -->
+    <el-image v-else-if="fileType(url) === 'pic'" :src="url" fit="cover" :style="wh" class="hasView" @click="viewImageOpen" />
+    <!-- 图标类型 -->
+    <el-image v-else :src="require('@/assets/images/fileType/' + fileType(url) + '.png')" fit="fit" :style="wh" />
+    <el-dialog v-if="isView" :visible.sync="isView">
+      <img width="100%" :src="image" style="max-width: 950px" />
+    </el-dialog>
   </div>
 </template>
 <script>
 // api
 // components
 // data
+import noneImage from '@/assets/images/noneImage.png'
 // filter
 // function
 // mixin
-import FileType from '@/components/Mixins/FileType'
 // plugins
-import { fileType } from 'abbott-methods/import'
+import { fileType, fileSuffixName } from 'abbott-methods/import'
 // settings
 export default {
   name: 'ComponentsImageType',
-  mixins: [FileType],
   props: {
     width: { type: Number, default: 100 },
     height: { type: Number, default: 100 },
@@ -27,6 +42,10 @@ export default {
   data() {
     return {
       fileType,
+      fileSuffixName,
+      noneImage,
+      image: '',
+      isView: false,
     }
   },
   computed: {
@@ -34,6 +53,19 @@ export default {
       return { width: this.width + 'px', height: this.height + 'px' }
     },
   },
+  methods: {
+    viewImageOpen() {
+      this.isView = true
+      this.image = this.url
+    },
+  },
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.el-image {
+  border-radius: 5px;
+}
+.hasView {
+  cursor: pointer;
+}
+</style>

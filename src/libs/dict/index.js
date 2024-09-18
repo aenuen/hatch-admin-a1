@@ -25,3 +25,28 @@ export const gainDictName = async (type, value) => {
   })
   return res
 }
+
+/**
+ * 根据value获取name
+ * @param {*} value
+ * @returns
+ */
+export const gainDictNameByValue = (ary, value) => {
+  let res = ''
+  ary.forEach((item) => {
+    if (item.value === value) {
+      res = item.label
+    }
+  })
+  return res
+}
+
+export const gainDictNameObject = (ary, value, field) => {
+  const obj = {}
+  ary.forEach((item) => {
+    if (item.value === value) {
+      obj[field] = item.label
+    }
+  })
+  return obj
+}

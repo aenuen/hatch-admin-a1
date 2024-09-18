@@ -3,29 +3,29 @@ import { fields } from './fields'
 
 export const BaseDataRule = {
   petName: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.petName, '填写', 3, 20) }],
-  realName: [{ validator: (rule, value, callback) => validateAllCn(rule, value, callback, fields.realName, 2, 20) }]
+  realName: [{ validator: (rule, value, callback) => validateAllCn(rule, value, callback, fields.realName, 2, 20) }],
 }
 
 export const PasswordRule = {
   passwordOld: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, `旧${fields.password}`, '填写', 6, 20) }],
   passwordNew: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, `新${fields.password}`, '填写', 6, 20) }],
-  passwordRep: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, `确认${fields.password}`, '填写', 6, 20) }]
+  passwordRep: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, `确认${fields.password}`, '填写', 6, 20) }],
 }
 
 export const EmailRule = {
-  newEmail: [{ validator: (rule, value, callback) => validateEmail(rule, value, callback) }]
+  newEmail: [{ validator: (rule, value, callback) => validateEmail(rule, value, callback) }],
 }
 export const MobileRule = {
-  newEmail: [{ validator: (rule, value, callback) => validateMobile(rule, value, callback) }]
+  newEmail: [{ validator: (rule, value, callback) => validateMobile(rule, value, callback) }],
 }
 
 export const DetailRule = {
-  username: [{ validator: validateUsername }],
+  username: [{ validator: (rule, value, callback) => validateUsername(rule, value, callback) }],
   petName: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.petName, '填写', 2, 20) }],
   realName: [{ validator: (rule, value, callback) => validateAllCn(rule, value, callback, fields.realName, 2, 20) }],
   email: [{ validator: (rule, value, callback) => validateEmail(rule, value, callback) }],
   mobile: [{ validator: (rule, value, callback) => validateMobile(rule, value, callback) }],
-  roles: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.roles, '选择') }]
+  roles: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.roles, '选择') }],
 }
 
 export const DetailPasswordRule = {
@@ -41,12 +41,12 @@ export const DetailPasswordRule = {
             callback()
           }
         }
-      }
-    }
+      },
+    },
   ],
   createPassword: [
     {
-      validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.password, '填写', 6, 20)
-    }
-  ]
+      validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.password, '填写', 6, 20),
+    },
+  ],
 }

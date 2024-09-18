@@ -10,15 +10,15 @@
         <el-option v-for="(item, key) in defineBooleanAry" :key="key" :value="String(item.value)" :label="item.label" />
       </el-select>
       <!-- 用户名搜索 -->
-      <el-input v-model="queryList.username" :placeholder="fields.username" class="filter-ele" clearable @keyup.enter.native="handleFilter" @clear="handleFilter" @select="handleFilter" />
+      <el-input v-model="queryList.username" :placeholder="fields.username" class="filter-ele" clearable @keyup.enter.native="handleFilter" @clear="handleFilter" @blur="handleFilter" />
       <!-- 昵称搜索 -->
-      <el-input v-model="queryList.petName" :placeholder="fields.petName" class="filter-ele" clearable @keyup.enter.native="handleFilter" @clear="handleFilter" @select="handleFilter" />
+      <el-input v-model="queryList.petName" :placeholder="fields.petName" class="filter-ele" clearable @keyup.enter.native="handleFilter" @clear="handleFilter" @blur="handleFilter" />
       <!-- 真实姓名搜索 -->
-      <el-input v-model="queryList.realName" :placeholder="fields.realName" class="filter-ele" clearable @keyup.enter.native="handleFilter" @clear="handleFilter" @select="handleFilter" />
+      <el-input v-model="queryList.realName" :placeholder="fields.realName" class="filter-ele" clearable @keyup.enter.native="handleFilter" @clear="handleFilter" @blur="handleFilter" />
       <!-- 电子邮箱搜索 -->
-      <el-input v-model="queryList.email" :placeholder="fields.email" class="filter-ele" clearable @keyup.enter.native="handleFilter" @clear="handleFilter" @select="handleFilter" />
+      <el-input v-model="queryList.email" :placeholder="fields.email" class="filter-ele" clearable @keyup.enter.native="handleFilter" @clear="handleFilter" @blur="handleFilter" />
       <!-- 手机号码 -->
-      <el-input v-model="queryList.mobile" :placeholder="fields.mobile" class="filter-ele" clearable @keyup.enter.native="handleFilter" @clear="handleFilter" @select="handleFilter" />
+      <el-input v-model="queryList.mobile" :placeholder="fields.mobile" class="filter-ele" clearable @keyup.enter.native="handleFilter" @clear="handleFilter" @blur="handleFilter" />
       <!-- 角色搜索 -->
       <el-select v-model="queryList.roles" :placeholder="fields.roles" class="filter-ele" clearable @clear="handleFilter" @change="handleFilter">
         <el-option v-for="(item, index) in rolesAry" :key="index" :value="item['value']" :label="item['label']" />
@@ -134,7 +134,8 @@ export default {
             item.realNameKeyword = keyLight(this.queryList, 'realName', item.realName)
             item.emailKeyword = keyLight(this.queryList, 'email', item.email)
             item.mobileKeyword = keyLight(this.queryList, 'mobile', item.mobile)
-            const object = { roles: rolesObject[this.queryList.roles] || '' }
+            const rolesObj = rolesObject()
+            const object = { roles: rolesObj[this.queryList.roles] || '' }
             const roles = rolesNameByValue(item.roles)
             item.rolesKeyword = keyLight(object, 'roles', roles)
           })

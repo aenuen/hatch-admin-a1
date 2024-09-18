@@ -68,7 +68,6 @@
 import { fields } from '../modules/fields'
 import noneImage from '@/assets/images/noneImage.png'
 // filter
-import { dateFilter } from '@/libs/filter'
 // function
 // mixin
 import TableMixin from '@/components/Mixins/TableMixin'
@@ -76,9 +75,6 @@ import TableMixin from '@/components/Mixins/TableMixin'
 // settings
 export default {
   name: 'ListTable',
-  filters: {
-    dateFilter,
-  },
   mixins: [TableMixin],
   props: {
     tableLoading: Boolean,

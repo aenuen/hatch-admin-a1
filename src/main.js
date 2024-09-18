@@ -20,22 +20,22 @@ Vue.prototype.$driver = new Driver({
   closeBtnText: '关闭', // 关闭按钮标题
   stageBackground: '#fff', // 引导对话的背景色
   nextBtnText: '下一步', // 下一步按钮标题
-  prevBtnText: '上一步' // 上一步按钮标题
+  prevBtnText: '上一步', // 上一步按钮标题
 })
-// import * as filters from './libs/filter'
+
+// 注册全局过滤器
+import * as filters from '@/libs/filter'
+Object.keys(filters).forEach((key) => {
+  Vue.filter(key, filters[key])
+})
 
 // import enLang from 'element-ui/lib/locale/lang/en'
 // 如果使用中文语言包请默认支持，无需额外引入，请删除该依赖
 
 Vue.use(Element, {
-  size: Cookies.get('size') || 'medium' // 设置元素ElementUI默认大小
+  size: Cookies.get('size') || 'medium', // 设置元素ElementUI默认大小
   // locale: enLang // 如果使用中文，无需设置，请删除
 })
-
-// // 注册全局过滤器
-// Object.keys(filters).forEach(key => {
-//   Vue.filter(key, filters[key])
-// })
 
 Vue.config.productionTip = false
 
@@ -43,5 +43,5 @@ new Vue({
   el: '#app',
   router,
   store,
-  render: h => h(App)
+  render: (h) => h(App),
 })
