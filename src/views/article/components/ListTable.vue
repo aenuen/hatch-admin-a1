@@ -1,5 +1,5 @@
 <template>
-  <el-table :key="1" :loading="tableLoading" :data="tableData" border fit highlight-current-row style="width: 100%" :default-sort="tableSort" @sort-change="onSortChange" @selection-change="onSelectorChange">
+  <el-table id="ListTable" ref="ListTable" :key="key" :loading="tableLoading" :data="tableData" border fit highlight-current-row style="width: 100%" :default-sort="tableSort" @sort-change="onSortChange" @selection-change="onSelectorChange" @cell-dblclick="cellClick">
     <el-table-column type="selection" width="50" align="center" />
     <el-table-column :label="fields.id" prop="id" align="center" width="80" sortable="custom" />
     <el-table-column :label="fields.work" align="center" width="120" fixed="left">
@@ -21,6 +21,12 @@
     <el-table-column :label="fields.title" prop="title" align="left">
       <template slot-scope="{ row: { k_title } }">
         <span v-html="k_title" />
+      </template>
+    </el-table-column>
+    <el-table-column :label="fields.sort" align="center" width="120">
+      <template slot-scope="scope">
+        <el-input v-if="scope.row.edit" v-model="scope.row.sort" size="small" @blur="handleInputBlur(scope.row)"></el-input>
+        <span v-else>{{ scope.row.sort }}</span>
       </template>
     </el-table-column>
     <el-table-column :label="fields.isUse" align="center" width="100">
@@ -58,7 +64,23 @@ export default {
   data() {
     return {
       fields: { ...cFields, ...fields },
+      key: 1,
     }
+  },
+  methods: {
+    // 双击编辑
+    cellClick(row, column, cell, event) {
+      row.edit = true
+      this.updateTable()
+    },
+    // 提交修改
+    handleInputBlur(row) {
+      this.$emit('rowUpdateSort', row)
+    },
+    // 更新表格
+    updateTable() {
+      this.key = Math.random()
+    },
   },
 }
 </script>

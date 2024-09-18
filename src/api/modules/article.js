@@ -20,6 +20,8 @@ export const article = {
   isUseOpenBatch: (data) => request({ url: `/${item}/isUseOpenBatch`, method: 'post', data }),
   // 批量禁用
   isUseCloseBatch: (data) => request({ url: `/${item}/isUseCloseBatch`, method: 'post', data }),
+  // 序号
+  sort: (data) => request({ url: `/${item}/sort`, method: 'post', data }),
   // 上传图片
   imageUpload: (data) => request({ url: `/${item}/imageUpload`, method: 'post', data }),
   // 图片列表

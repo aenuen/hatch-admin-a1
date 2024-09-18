@@ -31,16 +31,6 @@
       <el-button class="filter-btn el-icon-search" @click="handleFilter"> 搜索 </el-button>
       <!-- 新增按纽 -->
       <el-button type="success" class="filter-btn el-icon-plus" @click="$router.push('create')"> 新增 </el-button>
-      <!-- 导出 -->
-      <!--
-      <el-dropdown class="avatar-container hover-effect" trigger="click">
-        <el-button class="filter-btn el-icon-document"> 导出 </el-button>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="exportData(tableData, exportHeader, exportFields, '用户')"> 导出EXCEL </el-dropdown-item>
-          <el-dropdown-item @click.native="exportData(tableData, exportHeader, exportFields, '用户', 'csv')"> 导出CSV </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-       -->
       <!-- 打印 -->
       <!-- <el-button class="filter-btn el-icon-printer" @click="printTable('userListTable', '用户列表')"> 打印 </el-button> -->
       <!-- 批量删除 -->

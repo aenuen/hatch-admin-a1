@@ -18,7 +18,7 @@ export default {
       exportData,
       exportFields: [],
       exportHeader: [],
-      exportObject: {}
+      exportObject: {},
     }
   },
   mounted() {
@@ -30,8 +30,8 @@ export default {
     this.getExportData()
   },
   methods: {
-    getExportData() {}
-  }
+    getExportData() {},
+  },
 }
 </script>
 <style lang="scss" scoped></style>

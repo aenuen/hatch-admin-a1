@@ -17,11 +17,23 @@
       <el-button type="success" class="filter-btn el-icon-plus" @click="$router.push('create')"> 新增 </el-button>
       <!-- 批量删除 -->
       <el-button type="danger" class="filter-btn el-icon-delete" style="width: auto" @click="removeBatchConfirm"> 批量删除 </el-button>
+      <!-- 批量启用 -->
       <el-button type="warning" class="filter-btn el-icon-check" style="width: auto" @click="isUseOpenBatchConfirm"> 批量启用 </el-button>
+      <!-- 批量禁用 -->
       <el-button type="warning" class="filter-btn el-icon-close" style="width: auto" @click="isUseCloseBatchConfirm"> 批量禁用 </el-button>
+      <!-- 导出 -->
+      <el-dropdown class="avatar-container hover-effect" trigger="click">
+        <el-button type="primary" class="filter-btn el-icon-document" style="width: auto"> 导出数据 </el-button>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item @click.native="exportData(tableData, exportHeader, exportFields, '文章')"> 导出EXCEL </el-dropdown-item>
+          <el-dropdown-item @click.native="exportData(tableData, exportHeader, exportFields, '文章', 'csv')"> 导出CSV </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+      <!-- 打印 -->
+      <el-button type="primary" class="filter-btn el-icon-document" style="width: auto" @click="printTable('ListTable', '文章列表')"> 打印列表 </el-button>
     </div>
     <!-- 表格 -->
-    <ListTable :table-data="tableData" :table-loading="tableLoading" :table-sort="tableSort" :is-use="tableIsUse" @onSortChange="onSortChange" @onIsUseChange="onIsUseChange" @onRemoveAlone="onRemoveAlone" @onSelectorChange="onSelectorChange" />
+    <ListTable :table-data="tableData" :table-loading="tableLoading" :table-sort="tableSort" :is-use="tableIsUse" @onSortChange="onSortChange" @onIsUseChange="onIsUseChange" @onRemoveAlone="onRemoveAlone" @onSelectorChange="onSelectorChange" @rowUpdateSort="rowUpdateSort" />
     <!-- 分页 -->
     <div style="text-align: center">
       <Pagination :hidden="tableDataLength <= 0" :total="tableDataLength" :page.sync="queryList.page" :limit.sync="queryList.pageSize" @pagination="refresh" />
@@ -43,13 +55,14 @@ import { gainDictList, gainDictNameByValue, gainDictNameObject } from '@/libs/di
 // mixin
 import MethodsMixin from '@/components/Mixins/MethodsMixin'
 import ListMixin from '@/components/Mixins/ListMixin'
+import Output from '@/components/Mixins/Output'
 // plugins
 // settings
 import { defineIsUseAry, defineBooleanAry, keyLight } from 'abbott-methods/import'
 export default {
   name: 'ArticleList',
   components: { ListTable, Pagination },
-  mixins: [MethodsMixin, ListMixin],
+  mixins: [MethodsMixin, ListMixin, Output],
   data() {
     return {
       api,
@@ -58,6 +71,13 @@ export default {
       defineBooleanAry,
       newsTypeAry: [],
       tableIsUse: [],
+      exportObject: {
+        title: '标题',
+        typeName: '类型',
+        keyword: '关键字',
+        desc: '描述',
+        content: '内容',
+      },
     }
   },
   created() {},
@@ -119,6 +139,17 @@ export default {
         if (code === 200) {
           this.$message.success(msg)
           this.selectorAry = []
+          this.refreshStrong()
+        } else {
+          this.$message.error(msg)
+        }
+      })
+    },
+    // 排序更新
+    rowUpdateSort(row) {
+      api.article.sort({ id: row.id, sort: row.sort }).then(({ code, data, msg }) => {
+        if (code === 200) {
+          this.$message.success(msg)
           this.refreshStrong()
         } else {
           this.$message.error(msg)
