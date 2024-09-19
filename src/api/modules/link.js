@@ -1,7 +1,7 @@
 import request from '@/libs/axios/request'
 import qs from 'qs'
-const item = 'article'
-export const article = {
+const item = 'link'
+export const link = {
   // 列表
   list: (params) => request({ url: `/${item}/list?${qs.stringify(params)}`, method: 'get' }),
   // 详情

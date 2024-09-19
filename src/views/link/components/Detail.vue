@@ -1,11 +1,10 @@
 <template>
   <div class="app-container">
     <el-form ref="postForm" :model="postForm" :rules="rulesForm">
-      <!-- 标题 -->
       <el-row>
         <el-col>
-          <el-form-item prop="title" :label="fields.title" :label-width="labelWidth">
-            <el-input v-model="postForm.title" :placeholder="fields.title" clearable maxlength="30" show-word-limit :style="commonFormItem" />
+          <el-form-item prop="name" :label="fields.name" :label-width="labelWidth">
+            <el-input v-model="postForm.name" :placeholder="fields.name" clearable :style="commonFormItem" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -17,41 +16,29 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <!-- 类型 -->
       <el-row>
         <el-col>
           <el-form-item prop="type" :label="fields.type" :label-width="labelWidth">
             <el-select v-model="postForm.type" :placeholder="fields.type" clearable :style="commonFormItem">
-              <el-option v-for="(item, key) in newsTypeAry" :key="key" :value="String(item.value)" :label="item.label" />
+              <el-option v-for="(item, key) in linkTypeAry" :key="key" :value="String(item.value)" :label="item.label" />
             </el-select>
           </el-form-item>
         </el-col>
       </el-row>
-      <!-- 关键字 -->
       <el-row>
         <el-col>
-          <el-form-item prop="keyword" :label="fields.keyword" :label-width="labelWidth">
-            <el-input v-model="postForm.keyword" :placeholder="fields.keyword" clearable :style="commonFormItem" />
+          <el-form-item prop="url" :label="fields.url" :label-width="labelWidth">
+            <el-input v-model="postForm.url" :placeholder="fields.url" clearable :style="commonFormItem" />
           </el-form-item>
         </el-col>
       </el-row>
-      <!-- 描述 -->
       <el-row>
         <el-col>
-          <el-form-item prop="desc" :label="fields.desc" :label-width="labelWidth">
-            <el-input v-model="postForm.desc" type="textarea" :rows="5" resize="none" :placeholder="fields.desc" clearable :style="commonFormItem" />
+          <el-form-item prop="remark" :label="fields.remark" :label-width="labelWidth">
+            <el-input v-model="postForm.remark" type="textarea" :rows="5" resize="none" :placeholder="fields.remark" clearable :style="commonFormItem" />
           </el-form-item>
         </el-col>
       </el-row>
-      <!-- 内容 -->
-      <el-row>
-        <el-col>
-          <el-form-item prop="content" :label="fields.content" :label-width="labelWidth" style="position: relative">
-            <TinyMCE v-model="postForm.content" :style="commonFormItem" />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <!-- 提交 -->
       <el-form-item :label-width="labelWidth">
         <el-button type="primary" :loading="submitLoading" :disabled="submitLoading" @click="submitFrom">
           {{ submitText }}
@@ -65,8 +52,8 @@
 import api from '@/api'
 // components
 import Multi from '@/components/Upload/Multi'
-import TinyMCE from '@/components/TinyMCE'
 // data
+import { cFields } from '@/libs/cFields'
 import { fields } from '../modules/fields.js'
 import { rules as rulesForm } from '../modules/rules.js'
 // filter
@@ -80,8 +67,8 @@ import FormMixin from '@/components/Mixins/FormMixin'
 import { defineAccept } from 'abbott-methods/import'
 // settings
 export default {
-  name: 'ArticleDetail',
-  components: { Multi, TinyMCE },
+  name: 'LinkDetail',
+  components: { Multi },
   mixins: [DetailMixin, MethodsMixin, FormMixin],
   props: {
     isUpdate: { type: Boolean, default: false },
@@ -89,22 +76,16 @@ export default {
   data() {
     return {
       api,
-      fields,
+      fields: { ...fields, ...cFields },
       rulesForm,
-      newsTypeAry: [],
+      linkTypeAry: [],
       fileList: [],
       fileAry: [],
-      fileAction: '/article/coverUpload',
+      fileAction: '/link/coverUpload',
       fileAccept: defineAccept(['jpg', 'jpeg', 'gif', 'png']),
     }
   },
   computed: {
-    editor() {
-      return {
-        width: '950px',
-        height: '500px',
-      }
-    },
     fileData() {
       return {
         id: this.updateId,
@@ -116,11 +97,11 @@ export default {
     // 开始处理
     async startHandle() {
       this.submitText = this.isUpdate ? '编辑' : '添加'
-      this.newsTypeAry = await gainDictList('newsType')
+      this.linkTypeAry = await gainDictList('linkType')
     },
     // 获取详情
     getDetail() {
-      api.article.detail({ id: this.updateId }).then(({ code, data, msg }) => {
+      api.link.detail({ id: this.updateId }).then(({ code, data, msg }) => {
         if (code === 200) {
           this.postForm = data
           this.fileList = data.cover ? [{ url: data.cover, fileId: data.id }] : []
@@ -140,7 +121,7 @@ export default {
       if (!this.isUpdate) {
         this.fileAry = ary
       } else {
-        api.article.coverRemove({ id: fileId }).then(({ code, data, msg }) => {
+        api.link.coverRemove({ id: fileId }).then(({ code, data, msg }) => {
           if (code === 200) {
             this.$message.success(msg)
             this.fileList = []
@@ -150,22 +131,21 @@ export default {
         })
       }
     },
-    // 提交处理
+    // 提交表单
     submitHandle() {
       const formData = new FormData()
-      formData.append('title', this.postForm.title)
+      formData.append('name', this.postForm.name)
       formData.append('type', this.postForm.type)
-      formData.append('keyword', this.postForm.keyword)
-      formData.append('desc', this.postForm.desc)
-      formData.append('content', this.postForm.content)
+      formData.append('url', this.postForm.url)
+      formData.append('remark', this.postForm.remark)
       if (this.isUpdate) {
         formData.append('id', this.updateId)
-        api.article
+        api.link
           .update(formData)
           .then(({ code, data, msg }) => {
             if (code === 200) {
               this.$message.success(msg)
-              this.routerClose('/article/list')
+              this.routerClose('/link/list')
             } else {
               this.$message.error(msg)
             }
@@ -177,12 +157,12 @@ export default {
         this.fileAry.forEach((file) => {
           formData.append('files[]', file.raw)
         })
-        api.article
+        api.link
           .create(formData)
           .then(({ code, data, msg }) => {
             if (code === 200) {
               this.$message.success(msg)
-              this.routerClose('/article/list')
+              this.routerClose('/link/list')
             } else {
               this.$message.error(msg)
             }

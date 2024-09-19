@@ -18,9 +18,15 @@
         <ImageType :width="36" :height="36" :url="cover" />
       </template>
     </el-table-column>
-    <el-table-column :label="fields.title" prop="title" align="left">
-      <template slot-scope="{ row: { k_title } }">
-        <span v-html="k_title" />
+    <el-table-column :label="fields.name" prop="name" align="left">
+      <template slot-scope="{ row: { k_name } }">
+        <span v-html="k_name" />
+      </template>
+    </el-table-column>
+    <el-table-column :label="fields.url" prop="url" align="left">
+      <template slot-scope="{ row: { url } }">
+        <a v-if="formatExternal(url)" :href="url" target="_blank"><i class="el-icon-link" /></a>
+        <router-link v-else :to="url"><i class="el-icon-link" /></router-link>
       </template>
     </el-table-column>
     <el-table-column :label="fields.sort" prop="sort" align="center" width="120" sortable="custom">
@@ -49,6 +55,7 @@ import { fields } from '../modules/fields'
 // mixin
 import TableMixin from '@/components/Mixins/TableMixin'
 // plugins
+import { formatExternal } from 'abbott-methods/import'
 // settings
 export default {
   name: 'ListTable',
@@ -64,6 +71,7 @@ export default {
     return {
       fields: { ...cFields, ...fields },
       key: 1,
+      formatExternal,
     }
   },
   methods: {

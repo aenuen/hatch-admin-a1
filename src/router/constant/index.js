@@ -6,7 +6,6 @@ Vue.use(Router)
 import { home } from './modules/home'
 import { login, http, auth } from './modules/login'
 import { ep401, ep404 } from './modules/errorPage'
-import { user } from './modules/user'
 
 export const constantRoutes = [
   login, // 登录
@@ -15,13 +14,12 @@ export const constantRoutes = [
   ep401, // 401页面
   ep404, // 404页面
   home, // 首页
-  user // 管理员
 ]
 
 const createRouter = () =>
   new Router({
     scrollBehavior: () => ({ y: 0 }),
-    routes: constantRoutes
+    routes: constantRoutes,
   })
 const router = createRouter()
 
