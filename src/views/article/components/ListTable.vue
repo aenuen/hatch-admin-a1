@@ -23,7 +23,7 @@
         <span v-html="k_title" />
       </template>
     </el-table-column>
-    <el-table-column :label="fields.sort" align="center" width="120">
+    <el-table-column :label="fields.sort" prop="sort" align="center" width="120" sortable="custom">
       <template slot-scope="scope">
         <el-input v-if="scope.row.edit" v-model="scope.row.sort" size="small" @blur="handleInputBlur(scope.row)"></el-input>
         <span v-else>{{ scope.row.sort }}</span>

@@ -1,7 +1,7 @@
 <template>
   <div class="uploadMulti">
     <div class="uploadList">
-      <div v-for="(item, key) in fileList" :key="key" class="item" :style="wha50">
+      <div v-for="(item, key) in fileList" :key="key" class="item" :style="showName ? wha50 : wh">
         <div class="line">
           <ImageType :width="width" :height="height" :url="item.url" />
           <div class="mask" :style="wh" />
@@ -12,18 +12,18 @@
             <span v-else @click="onUploadDownload(item.url, key)">
               <i class="el-icon-download" />
             </span>
-            <span @click="onUploadRemove(item.fileId)">
+            <span @click="onUploadRemove(item.fileId, key)">
               <i class="el-icon-delete" />
             </span>
           </div>
         </div>
-        <div class="name" :style="whh50">{{ item.fileName }}</div>
+        <div v-if="showName" class="name" :style="whh50">{{ item.fileName }}</div>
       </div>
       <el-dialog v-if="dialogVisible" :visible.sync="dialogVisible">
         <img width="100%" :src="dialogImageUrl" style="max-width: 950px" />
       </el-dialog>
     </div>
-    <div class="load" :style="wh">
+    <div class="load" :style="wh" :class="showName ? 'has' : 'none'">
       <el-upload
         v-if="fileLimit > fileList.length"
         ref="multiUploader"
@@ -74,6 +74,7 @@ export default {
     fileExceed: { type: Number, default: 2 },
     fileLimit: { type: Number, default: 5 },
     fileAuto: { type: Boolean, default: true },
+    showName: { type: Boolean, default: true },
     width: { type: Number, default: 100 },
     height: { type: Number, default: 100 },
   },
@@ -116,6 +117,9 @@ export default {
       if (code === 200) {
         if (typeof data === 'string') {
           data = { url: data }
+        } else {
+          data.url = data.fileUrl
+          data.fileId = data.id
         }
         this.fileList.push(data)
         this.$message.success('上传成功')
@@ -176,7 +180,7 @@ export default {
       })
         .then(() => {
           if (this.fileAuto) {
-            this.fileList.splice(index, 1)
+            this.$emit('onUploadRemove', this.fileAry, fileId)
           } else {
             this.fileList.splice(index, 1)
             this.fileAry.splice(index, 1)

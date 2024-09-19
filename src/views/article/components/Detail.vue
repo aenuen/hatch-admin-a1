@@ -13,7 +13,7 @@
       <el-row>
         <el-col>
           <el-form-item prop="cover" :label="fields.cover" :label-width="labelWidth">
-            <Multi ref="Multi" :file-list="fileList" :file-action="fileAction" :file-limit="1" :file-accept="fileAccept" :file-data="fileData" :file-auto="isUpdate" @onUploadCreate="onUploadCreate" @onUploadRemove="onUploadRemove" />
+            <Multi ref="Multi" :file-list="fileList" :file-action="fileAction" :file-limit="1" :file-accept="fileAccept" :file-data="fileData" :file-auto="isUpdate" :show-name="false" @onUploadCreate="onUploadCreate" @onUploadRemove="onUploadRemove" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -115,9 +115,21 @@ export default {
   },
   created() {},
   methods: {
+    // 开始处理
     async startHandle() {
       this.submitText = this.isUpdate ? '编辑' : '添加'
       this.newsTypeAry = await gainDictList('newsType')
+    },
+    // 获取详情
+    getDetail() {
+      api.article.detail({ id: this.updateId }).then(({ code, data, msg }) => {
+        if (code === 200) {
+          this.postForm = data
+          this.fileList = data.cover ? [{ url: data.cover, fileId: data.id }] : []
+        } else {
+          this.$message.error(msg)
+        }
+      })
     },
     // 添加一个文件
     onUploadCreate(ary) {
@@ -126,9 +138,18 @@ export default {
       }
     },
     // 删除一个文件
-    onUploadRemove(ary) {
+    onUploadRemove(ary, fileId) {
       if (!this.isUpdate) {
         this.fileAry = ary
+      } else {
+        api.article.coverRemove({ id: fileId }).then(({ code, data, msg }) => {
+          if (code === 200) {
+            this.$message.success(msg)
+            this.fileList = []
+          } else {
+            this.$message.error(msg)
+          }
+        })
       }
     },
     handleImageUpload(file, Editor, cursorLocation, resetUploader) {
@@ -160,7 +181,20 @@ export default {
       formData.append('desc', this.postForm.desc)
       formData.append('content', this.postForm.content)
       if (this.isUpdate) {
-        //
+        formData.append('id', this.updateId)
+        api.article
+          .update(formData)
+          .then(({ code, data, msg }) => {
+            if (code === 200) {
+              this.$message.success(msg)
+              this.routerClose('/article/list')
+            } else {
+              this.$message.error(msg)
+            }
+          })
+          .catch(() => {
+            this.submitLoadingClose()
+          })
       } else {
         this.fileAry.forEach((file) => {
           formData.append('files[]', file.raw)

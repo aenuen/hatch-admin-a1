@@ -57,8 +57,13 @@
   }
 
   .load {
-    padding-bottom: 50px;
     margin-right: 10px;
+    &.has {
+      padding-bottom: 50px;
+    }
+    &.none {
+      padding-bottom: 0;
+    }
 
     .uploaderItem {
       border: 1px dashed #d9d9d9;

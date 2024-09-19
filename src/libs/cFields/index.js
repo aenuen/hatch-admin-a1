@@ -1,5 +1,5 @@
 export const cFields = {
-  id: '序号',
+  id: '编号',
   work: '操作',
   remark: '备注',
   isUse: '使用状态',
