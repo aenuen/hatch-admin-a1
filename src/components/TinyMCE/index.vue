@@ -2,14 +2,14 @@
   <div :class="{ fullscreen: fullscreen }" class="tinymce-container" :style="{ width: containerWidth }">
     <textarea :id="tinymceId" class="tinymce-textarea" />
     <div class="editor-custom-btn-container">
-      <editorImage color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK" />
+      <ImageSelect color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK" />
     </div>
   </div>
 </template>
 
 <script>
 import api from '@/api'
-import editorImage from './components/EditorImage'
+import ImageSelect from '@/components/ImageSelect'
 import plugins from './modules/plugins'
 import toolbar from './modules/toolbar'
 import loadJs from './modules/loadJs'
@@ -17,7 +17,7 @@ const tinymceCDN = '/plugins/tinymce/tinymce.min.js'
 
 export default {
   name: 'Tinymce',
-  components: { editorImage },
+  components: { ImageSelect },
   props: {
     id: { type: String, default: () => 'vue-tinymce-' + +new Date() + ((Math.random() * 1000).toFixed(0) + '') },
     value: { type: String, default: '' },
@@ -132,11 +132,12 @@ export default {
         images_upload_handler(blobInfo, success, failure, progress) {
           progress(0)
           const formData = new FormData()
-          formData.append('file', blobInfo.blob(), blobInfo.filename())
-          api.article
-            .imageUpload(formData)
+          formData.append('files[]', blobInfo.blob(), blobInfo.filename())
+          api.image
+            .upload(formData)
             .then(({ code, data, msg }) => {
-              success(data)
+              const { url } = data
+              success(url)
               progress(100)
             })
             .catch((err) => {
@@ -162,7 +163,7 @@ export default {
       window.tinymce.get(this.tinymceId).getContent()
     },
     imageSuccessCBK(arr) {
-      arr.forEach((v) => window.tinymce.get(this.tinymceId).insertContent(`<img class="image" src="${v.url}" >`))
+      arr.forEach((v) => window.tinymce.get(this.tinymceId).insertContent(`<img class="image" src="${v}" >`))
     },
   },
 }

@@ -115,12 +115,8 @@ export default {
     // 上传成功
     onSuccess({ code, data }, file) {
       if (code === 200) {
-        if (typeof data === 'string') {
-          data = { url: data }
-        } else {
-          data.url = data.fileUrl
-          data.fileId = data.id
-        }
+        data.url = data.fileUrl
+        data.fileId = data.id
         this.fileList.push(data)
         this.$message.success('上传成功')
       }

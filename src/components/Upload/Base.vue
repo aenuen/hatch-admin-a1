@@ -1,24 +1,6 @@
 <template>
   <div class="upload-container">
-    <el-upload
-      :action="action"
-      :headers="headers"
-      :multiple="false"
-      :data="data"
-      :limit="fileLimit"
-      :file-list="fileList"
-      :accept="fileAccept"
-      :disabled="fileDisabled"
-      :on-preview="onPreview"
-      :before-upload="beforeUpload"
-      :on-success="onSuccess"
-      :on-error="onError"
-      :on-remove="onRemove"
-      :on-exceed="onExceed"
-      drag
-      show-file-list
-      class="image-upload"
-    >
+    <el-upload :action="action" :headers="headers" :multiple="false" :data="data" :limit="fileLimit" :file-list="fileList" :accept="fileAccept" :disabled="fileDisabled" :on-preview="onPreview" :before-upload="beforeUpload" :on-success="onSuccess" :on-error="onError" :on-remove="onRemove" :on-exceed="onExceed" drag show-file-list class="image-upload">
       <i class="el-icon-upload" />
       <div v-if="fileList.length === 0" class="el-upload__text">
         请将 <em>{{ fileText }} 拖入</em> 或 <em>点击上传</em>
@@ -40,26 +22,26 @@ export default {
     fileText: { type: String, default: '' },
     fileAction: { type: String, default: '' },
     fileLimit: { type: Number, default: 1 },
-    fileData: { type: Object, default: () => ({}) }
+    fileData: { type: Object, default: () => ({}) },
   },
   data() {
     return {
       baseUrl: `${process.env.VUE_APP_BASE_API}`,
       action: '',
-      data: {}
+      data: {},
     }
   },
   computed: {
     headers() {
       return {
-        Authorization: `Bearer ${getToken()}`
+        Authorization: `Bearer ${getToken()}`,
       }
-    }
+    },
   },
   watch: {
     fileData(value) {
       this.data = value
-    }
+    },
   },
   mounted() {
     this.action = `${this.baseUrl}${this.fileAction}`
@@ -98,8 +80,8 @@ export default {
     // 处理预设值
     onPreview(data) {
       this.$emit('onPreview', data)
-    }
-  }
+    },
+  },
 }
 </script>
 

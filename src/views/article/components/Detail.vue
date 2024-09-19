@@ -47,7 +47,6 @@
       <el-row>
         <el-col>
           <el-form-item prop="content" :label="fields.content" :label-width="labelWidth" style="position: relative">
-            <ImageSelect />
             <TinyMCE v-model="postForm.content" :style="commonFormItem" />
           </el-form-item>
         </el-col>
@@ -66,7 +65,6 @@
 import api from '@/api'
 // components
 import Multi from '@/components/Upload/Multi'
-import ImageSelect from '@/components/ImageSelect'
 import TinyMCE from '@/components/TinyMCE'
 // data
 import { fields } from '../modules/fields.js'
@@ -83,7 +81,7 @@ import { defineAccept } from 'abbott-methods/import'
 // settings
 export default {
   name: 'ArticleDetail',
-  components: { Multi, ImageSelect, TinyMCE },
+  components: { Multi, TinyMCE },
   mixins: [DetailMixin, MethodsMixin, FormMixin],
   props: {
     isUpdate: { type: Boolean, default: false },
