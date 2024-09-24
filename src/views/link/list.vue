@@ -81,6 +81,11 @@ export default {
   },
   created() {},
   methods: {
+    setData() {
+      return {
+        sort: '-id',
+      }
+    },
     // 开始处理
     async startHandle() {
       this.linkTypeAry = await gainDictList('linkType')

@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-button type="primary" @click="popupCreate(0, '根目录')">根目录添加</el-button>
     <el-table :data="tableData" style="width: 100%; margin: 20px 0" row-key="id" border :default-expand-all="false" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-      <el-table-column prop="label" :label="fields.label" align="center" width="300px" />
+      <el-table-column prop="label" :label="fields.label" align="left" width="300px" />
       <el-table-column prop="id" :label="fields.id" align="center" width="100px" />
       <el-table-column :label="fields.value" align="center" width="100px">
         <template slot-scope="{ row: { value } }">
