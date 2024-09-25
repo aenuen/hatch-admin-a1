@@ -1,5 +1,3 @@
-import defaultSettings from '@/settings'
+import { title } from '@/config/site'
 
-const title = defaultSettings.title || 'Video Admin'
-
-export default pageTitle => pageTitle ? `${pageTitle} - ${title}` : `${title}`
+export default (pageTitle) => (pageTitle ? `${pageTitle} - ${title}` : `${title}`)

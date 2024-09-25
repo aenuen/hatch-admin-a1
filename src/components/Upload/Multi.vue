@@ -62,7 +62,7 @@ import ImageType from '@/components/ImageType'
 import { getToken } from '@/libs/token'
 import { fileType, formatExternal } from 'abbott-methods/import'
 // settings
-import { apiBaseUrl } from '@/settings'
+import { apiBaseUrl } from '@/config/http.js'
 export default {
   name: 'ComponentsUploadMulti',
   components: { ImageType },
