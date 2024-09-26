@@ -8,20 +8,20 @@ import App from './App'
 import store from './store'
 import router from './router/constant' // 固定路由
 import './libs/svgIcon' // 图标
-import './libs/Each' // token判断
+import './libs/each' // token判断
 import './libs/errorLog'
 
-import Driver from 'driver.js'
-import 'driver.js/dist/driver.min.css'
+// import Driver from 'driver.js'
+// import 'driver.js/dist/driver.min.css'
 
-Vue.prototype.$driver = new Driver({
-  allowClose: false, // 禁止点击外部关闭
-  doneBtnText: '完成', // 完成按钮标题
-  closeBtnText: '关闭', // 关闭按钮标题
-  stageBackground: '#fff', // 引导对话的背景色
-  nextBtnText: '下一步', // 下一步按钮标题
-  prevBtnText: '上一步', // 上一步按钮标题
-})
+// Vue.prototype.$driver = new Driver({
+//   allowClose: false, // 禁止点击外部关闭
+//   doneBtnText: '完成', // 完成按钮标题
+//   closeBtnText: '关闭', // 关闭按钮标题
+//   stageBackground: '#fff', // 引导对话的背景色
+//   nextBtnText: '下一步', // 下一步按钮标题
+//   prevBtnText: '上一步', // 上一步按钮标题
+// })
 
 // 注册全局过滤器
 import * as filters from '@/libs/filter'
