@@ -1,0 +1,25 @@
+.PdfViewer {
+  width: 100%;
+  display: flex;
+  .showcase {
+    flex: 1;
+    .showcase-page {
+      border: 1px solid #ccc;
+      margin: 10px;
+    }
+  }
+  .thumbnail {
+    width: 100px;
+    .thumbnail-page {
+      margin: 10px;
+      width: 100px;
+      border: 1px solid #ccc;
+    }
+  }
+}
+
+.my-scrollbar {
+  width: 35%;
+  min-width: 300px;
+  max-height: 450px;
+}

@@ -2,11 +2,13 @@
 
 import { article } from './modules/article'
 import { link } from './modules/link'
+import { reader } from './modules/reader'
 import { user } from './modules/user'
 import { dict } from './modules/dict'
 import { icons } from './modules/icons'
 const asyncRoutes = [
   article,
+  reader,
   link,
   user,
   dict,
