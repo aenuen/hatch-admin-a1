@@ -1,10 +1,8 @@
-// noinspection JSUnresolvedFunction
-
-import router from './router/constant'
-import store from './store'
-import { Message } from 'element-ui'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import { Message } from 'element-ui'
+import router from '@/router/constant'
+import store from '@/store'
 import { getToken } from '@/libs/token'
 import pageTitle from '@/libs/pageTitle'
 

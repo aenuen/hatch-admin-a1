@@ -8,7 +8,7 @@ import App from './App'
 import store from './store'
 import router from './router/constant' // 固定路由
 import './libs/svgIcon' // 图标
-import './each' // token判断
+import './libs/Each' // token判断
 import './libs/errorLog'
 
 import Driver from 'driver.js'
