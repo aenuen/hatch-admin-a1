@@ -18,8 +18,7 @@
 // plugins
 import pdf from 'vue-pdf'
 import * as PDFJS from 'pdfjs-dist'
-import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry'
-PDFJS.GlobalWorkerOptions.workerSrc = pdfjsWorker
+PDFJS.GlobalWorkerOptions.workerSrc = require('pdfjs-dist/build/pdf.worker.entry')
 // settings
 export default {
   name: 'VuePDFViewer',
@@ -51,7 +50,7 @@ export default {
   created() {},
   methods: {
     loadFile(url) {
-      PDFJS.getDocument({ url: url, withCredentials: true })
+      PDFJS.getDocument({ url, withCredentials: true })
         .promise.then((pdf) => {
           this.pdfDoc = pdf
           this.thumbnailTotal = pdf.numPages
@@ -67,7 +66,7 @@ export default {
       this.pdfDoc.getPage(num).then((page) => {
         const canvas = document.getElementById('thumbnail' + num)
         const context = canvas.getContext('2d')
-        const viewport = page.getViewport({ scale: 0.3 })
+        const viewport = page.getViewport()
         // 计算canvas的宽高
         const width = viewport.width || viewport.viewBox[2]
         const height = viewport.height || viewport.viewBox[3]
