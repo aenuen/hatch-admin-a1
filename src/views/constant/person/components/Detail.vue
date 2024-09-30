@@ -60,7 +60,7 @@
         </el-col>
       </el-row>
       <el-form-item :label-width="labelWidth">
-        <el-button type="primary" :loading="submitLoading" :disabled="submitLoading" @click="submitFrom">{{ submitText }}</el-button>
+        <el-button type="primary" :loading="submitLoading" :disabled="submitLoading" @click="submitForm">{{ submitText }}</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -153,7 +153,7 @@ export default {
       this.submitLoadingClose()
       this.$refs.postForm.resetFields()
     },
-    submitFrom() {
+    submitForm() {
       if (!this.submitLoading) {
         this.submitLoadingOpen()
         this.$refs.postForm.validate((valid, fields) => {

@@ -40,7 +40,7 @@
         </el-col>
       </el-row>
       <el-form-item :label-width="labelWidth">
-        <el-button type="primary" :loading="submitLoading" :disabled="submitLoading" @click="submitFrom">
+        <el-button type="primary" :loading="submitLoading" :disabled="submitLoading" @click="submitForm">
           {{ submitText }}
         </el-button>
       </el-form-item>

@@ -2,7 +2,7 @@
 export default {
   methods: {
     submitHandle() {},
-    submitFrom() {
+    submitForm() {
       this.$refs.postForm.validate((valid, fields) => {
         this.submitLoadingOpen()
         if (valid) {
