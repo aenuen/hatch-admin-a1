@@ -5,7 +5,7 @@
       <el-row>
         <el-col>
           <el-form-item prop="title" :label="fields.title" :label-width="labelWidth">
-            <el-input v-model="postForm.title" :placeholder="fields.title" clearable maxlength="30" show-word-limit :style="commonFormItem" />
+            <el-input v-model="postForm.title" :placeholder="fields.title" clearable maxlength="30" show-word-limit :style="fws" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -21,7 +21,7 @@
       <el-row>
         <el-col>
           <el-form-item prop="type" :label="fields.type" :label-width="labelWidth">
-            <el-select v-model="postForm.type" :placeholder="fields.type" clearable :style="commonFormItem">
+            <el-select v-model="postForm.type" :placeholder="fields.type" clearable :style="fws">
               <el-option v-for="(item, key) in newsTypeAry" :key="key" :value="String(item.value)" :label="item.label" />
             </el-select>
           </el-form-item>
@@ -31,7 +31,7 @@
       <el-row>
         <el-col>
           <el-form-item prop="keyword" :label="fields.keyword" :label-width="labelWidth">
-            <el-input v-model="postForm.keyword" :placeholder="fields.keyword" clearable :style="commonFormItem" />
+            <el-input v-model="postForm.keyword" :placeholder="fields.keyword" clearable :style="fws" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -39,7 +39,7 @@
       <el-row>
         <el-col>
           <el-form-item prop="desc" :label="fields.desc" :label-width="labelWidth">
-            <el-input v-model="postForm.desc" type="textarea" :rows="5" resize="none" :placeholder="fields.desc" clearable :style="commonFormItem" />
+            <el-input v-model="postForm.desc" type="textarea" :rows="5" resize="none" :placeholder="fields.desc" clearable :style="fws" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -47,7 +47,7 @@
       <el-row>
         <el-col>
           <el-form-item prop="content" :label="fields.content" :label-width="labelWidth" style="position: relative">
-            <TinyMCE v-model="postForm.content" :style="commonFormItem" />
+            <TinyMCE v-model="postForm.content" :style="fws" />
           </el-form-item>
         </el-col>
       </el-row>

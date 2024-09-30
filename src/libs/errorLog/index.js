@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { typeString, typeArray } from 'abbott-methods/import'
 import store from '@/store'
-import { errorLog as needErrorLog } from '@/config/site'
+import { errorLog as needErrorLog } from '@/set/site'
 
 const checkNeed = () => {
   const env = process.env.NODE_ENV

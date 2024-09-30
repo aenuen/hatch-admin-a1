@@ -2,8 +2,8 @@
 
 'use strict'
 const path = require('path')
-const { port, title } = require('./src/config/site')
-const { isDevMode } = require('./src/config/mode')
+const { port, title } = require('./src/set/site')
+const { isDevMode } = require('./src/set/mode')
 
 module.exports = {
   publicPath: '', // 生产环境使用资源时的路径的开头字符

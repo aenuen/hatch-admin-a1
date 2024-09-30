@@ -1,24 +1,24 @@
 <template>
   <div class="app-container">
-    <el-form ref="postForm" :model="postForm" :rules="ruleForm" style="margin: 30px 50px">
+    <el-form ref="postForm" :model="postForm" :rules="ruleForm">
       <el-row>
         <el-col>
           <el-form-item prop="passwordOld" :label="`旧${fields.password}`" :label-width="labelWidth">
-            <el-input ref="passwordOld" v-model.trim="postForm.passwordOld" :placeholder="`旧${fields.password}`" clearable show-password maxlength="30" style="width: 300px" />
+            <el-input ref="passwordOld" v-model.trim="postForm.passwordOld" :placeholder="`旧${fields.password}`" clearable show-password maxlength="30" :style="fws" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col>
           <el-form-item prop="passwordNew" :label="`新${fields.password}`" :label-width="labelWidth">
-            <el-input ref="passwordNew" v-model.trim="postForm.passwordNew" :placeholder="`新${fields.password}`" clearable show-password maxlength="30" style="width: 300px" />
+            <el-input ref="passwordNew" v-model.trim="postForm.passwordNew" :placeholder="`新${fields.password}`" clearable show-password maxlength="30" :style="fws" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col>
           <el-form-item prop="passwordRep" :label="`确认${fields.password}`" :label-width="labelWidth">
-            <el-input ref="passwordRep" v-model.trim="postForm.passwordRep" :placeholder="`确认${fields.password}`" clearable show-password maxlength="30" style="width: 300px" />
+            <el-input ref="passwordRep" v-model.trim="postForm.passwordRep" :placeholder="`确认${fields.password}`" clearable show-password maxlength="30" :style="fws" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -45,7 +45,7 @@ import { mapGetters } from 'vuex'
 import { CryptoJsEncode } from '@/libs/cryptojs'
 // settings
 export default {
-  name: 'PersonalPassword',
+  name: 'PersonPassword',
   mixins: [DetailMixin],
   data() {
     return {

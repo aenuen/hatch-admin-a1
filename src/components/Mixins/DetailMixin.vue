@@ -13,9 +13,9 @@ export default {
     }
   },
   computed: {
-    commonFormItem() {
+    fws() {
       return {
-        width: '900px',
+        width: '580px',
       }
     },
   },

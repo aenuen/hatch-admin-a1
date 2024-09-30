@@ -13,8 +13,8 @@ import Detail from './components/Detail'
 // plugins
 // settings
 export default {
-  name: 'PersonalCreate',
-  components: { Detail }
+  name: 'PersonCreate',
+  components: { Detail },
 }
 </script>
 

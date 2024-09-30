@@ -1,9 +1,8 @@
-<!--suppress ALL -->
 <template>
   <div>
     <el-dropdown class="avatar-container hover-effect" trigger="click">
       <div class="avatar-wrapper" style="cursor: pointer">
-        <el-avatar class="user-avatar" :size="35" :src="`${avatar}`" @error="true">
+        <el-avatar class="user-avatar" :size="35" :src="formatInvalidPicture(avatar) ? noneImage : avatar" @error="true">
           <img :src="noneImage" />
         </el-avatar>
         <i class="el-icon-caret-bottom" />
@@ -25,13 +24,14 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import noneImage from '@/assets/images/noneImage.png'
+import { formatInvalidPicture } from 'abbott-methods/import'
 
 export default {
   name: 'LayoutAvatar',
   data() {
     return {
-      noneImage,
+      noneImage: require('@/assets/images/noneImage.png'),
+      formatInvalidPicture,
     }
   },
   computed: {

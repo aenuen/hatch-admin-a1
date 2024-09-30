@@ -4,7 +4,7 @@
       <el-row>
         <el-col>
           <el-form-item prop="name" :label="fields.name" :label-width="labelWidth">
-            <el-input v-model="postForm.name" :placeholder="fields.name" clearable :style="commonFormItem" />
+            <el-input v-model="postForm.name" :placeholder="fields.name" clearable :style="fws" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -19,7 +19,7 @@
       <el-row>
         <el-col>
           <el-form-item prop="type" :label="fields.type" :label-width="labelWidth">
-            <el-select v-model="postForm.type" :placeholder="fields.type" clearable :style="commonFormItem">
+            <el-select v-model="postForm.type" :placeholder="fields.type" clearable :style="fws">
               <el-option v-for="(item, key) in linkTypeAry" :key="key" :value="String(item.value)" :label="item.label" />
             </el-select>
           </el-form-item>
@@ -28,14 +28,14 @@
       <el-row>
         <el-col>
           <el-form-item prop="url" :label="fields.url" :label-width="labelWidth">
-            <el-input v-model="postForm.url" :placeholder="fields.url" clearable :style="commonFormItem" />
+            <el-input v-model="postForm.url" :placeholder="fields.url" clearable :style="fws" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col>
           <el-form-item prop="remark" :label="fields.remark" :label-width="labelWidth">
-            <el-input v-model="postForm.remark" type="textarea" :rows="5" resize="none" :placeholder="fields.remark" clearable :style="commonFormItem" />
+            <el-input v-model="postForm.remark" type="textarea" :rows="5" resize="none" :placeholder="fields.remark" clearable :style="fws" />
           </el-form-item>
         </el-col>
       </el-row>

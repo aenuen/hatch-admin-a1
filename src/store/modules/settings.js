@@ -1,7 +1,7 @@
 // noinspection JSUnresolvedVariable
 
 import variables from '@/assets/styles/element-variables.scss'
-import { showSettings, tagsView, fixedHeader, sidebarLogo } from '@/config/site'
+import { showSettings, tagsView, fixedHeader, sidebarLogo } from '@/set/site'
 
 const state = {
   theme: variables.theme,

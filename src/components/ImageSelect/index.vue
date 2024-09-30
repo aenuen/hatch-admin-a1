@@ -37,7 +37,7 @@ import Pagination from '@/components/Pagination'
 import { getToken } from '@/libs/token'
 import { defineAccept, aoDeleteValue } from 'abbott-methods/import'
 // settings
-import { apiBaseUrl } from '@/config/http.js'
+import { apiBaseUrl } from '@/set/http.js'
 export default {
   name: 'ComponentsImageSelect',
   components: { Pagination },

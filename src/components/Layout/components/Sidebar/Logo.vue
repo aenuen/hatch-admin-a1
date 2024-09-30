@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { title } from '@/config/site.js'
+import { title } from '@/set/site.js'
 
 export default {
   name: 'SidebarLogo',
