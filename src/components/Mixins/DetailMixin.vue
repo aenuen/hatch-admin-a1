@@ -23,12 +23,12 @@ export default {
     const updateId = +this.$route.params.id
     if (this.isUpdate && updateId > 0) {
       this.updateId = updateId
-      this.getDetail()
+      this.gainDetail()
     }
     this.startHandle()
   },
   methods: {
-    getDetail() {},
+    gainDetail() {},
     startHandle() {},
     submitLoadingOpen() {
       this.submitLoading = true
@@ -40,6 +40,17 @@ export default {
       const msg = validateErrMsg(fields)
       this.$message.error(msg)
       this.submitLoadingClose()
+    },
+    submitHandle() {},
+    submitForm() {
+      this.$refs.postForm.validate((valid, fields) => {
+        this.submitLoadingOpen()
+        if (valid) {
+          this.submitHandle()
+        } else {
+          this.validateErrHandle(fields)
+        }
+      })
     },
   },
 }

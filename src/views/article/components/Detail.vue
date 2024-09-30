@@ -119,7 +119,7 @@ export default {
       this.newsTypeAry = await gainDictList('newsType')
     },
     // 获取详情
-    getDetail() {
+    gainDetail() {
       api.article.detail({ id: this.updateId }).then(({ code, data, msg }) => {
         if (code === 200) {
           this.postForm = data

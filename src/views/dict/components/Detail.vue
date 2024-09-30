@@ -85,11 +85,11 @@ export default {
       // 编辑时获取详情
       if (this.isUpdate) {
         this.updateId = this.updateNo
-        this.getDetail()
+        this.gainDetail()
       }
     },
     // 获取详情
-    getDetail() {
+    gainDetail() {
       api.dict.detail({ id: this.updateId }).then(({ code, data, msg }) => {
         if (code === 200) {
           this.postForm = data

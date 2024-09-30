@@ -100,7 +100,7 @@ export default {
       this.linkTypeAry = await gainDictList('linkType')
     },
     // 获取详情
-    getDetail() {
+    gainDetail() {
       api.link.detail({ id: this.updateId }).then(({ code, data, msg }) => {
         if (code === 200) {
           this.postForm = data
