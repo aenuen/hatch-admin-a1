@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form ref="postForm" :model="postForm" :rules="rulesForm">
+    <el-form ref="postForm" :model="postForm" :rules="ruleForm">
       <el-row>
         <el-col>
           <el-form-item prop="parentId" :label="fields.parentId" :label-width="labelWidth">
@@ -48,7 +48,7 @@ import api from '@/api'
 // components
 // data
 import { fields } from '../modules/fields.js'
-import { rules as rulesForm } from '../modules/rules.js'
+import { rules as ruleForm } from '../modules/rules.js'
 // filter
 // function
 // mixin
@@ -71,7 +71,7 @@ export default {
     return {
       api,
       fields,
-      rulesForm,
+      ruleForm,
       submitText: '',
     }
   },

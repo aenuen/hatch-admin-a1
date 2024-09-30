@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form ref="postForm" :model="postForm" :rules="rulesForm">
+    <el-form ref="postForm" :model="postForm" :rules="ruleForm">
       <el-row>
         <el-col>
           <el-form-item prop="petName" :label="fields.petName" :label-width="labelWidth">
@@ -35,7 +35,7 @@ import api from '@/api'
 // components
 // data
 import { fields } from '../modules/fields'
-import { BaseDataRule as rulesForm } from '../modules/rules'
+import { BaseDataRule as ruleForm } from '../modules/rules'
 // filter
 // function
 // mixin
@@ -49,11 +49,11 @@ export default {
   data() {
     return {
       fields,
-      rulesForm
+      ruleForm,
     }
   },
   computed: {
-    ...mapGetters(['aid', 'realName', 'petName', 'introduction'])
+    ...mapGetters(['aid', 'realName', 'petName', 'introduction']),
   },
   created() {
     this.postForm = {
@@ -61,8 +61,8 @@ export default {
         id: this.aid,
         realName: this.realName,
         petName: this.petName,
-        introduction: this.introduction
-      }
+        introduction: this.introduction,
+      },
     }
   },
   methods: {
@@ -87,7 +87,7 @@ export default {
           }
         })
       }
-    }
-  }
+    },
+  },
 }
 </script>

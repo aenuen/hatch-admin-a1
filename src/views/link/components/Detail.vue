@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form ref="postForm" :model="postForm" :rules="rulesForm">
+    <el-form ref="postForm" :model="postForm" :rules="ruleForm">
       <el-row>
         <el-col>
           <el-form-item prop="name" :label="fields.name" :label-width="labelWidth">
@@ -55,7 +55,7 @@ import Multi from '@/components/Upload/Multi'
 // data
 import { cFields } from '@/libs/cFields'
 import { fields } from '../modules/fields.js'
-import { rules as rulesForm } from '../modules/rules.js'
+import { rules as ruleForm } from '../modules/rules.js'
 // filter
 // function
 import { gainDictList } from '@/libs/dict'
@@ -77,7 +77,7 @@ export default {
     return {
       api,
       fields: { ...fields, ...cFields },
-      rulesForm,
+      ruleForm,
       linkTypeAry: [],
       fileList: [],
       fileAry: [],

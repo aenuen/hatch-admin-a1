@@ -5,7 +5,7 @@ export default {
   data() {
     return {
       postForm: {},
-      rulesForm: {},
+      ruleForm: {},
       labelWidth: '120px',
       submitLoading: false,
       updateId: 0,

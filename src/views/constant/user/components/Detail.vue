@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form ref="postForm" :model="postForm" :rules="rulesForm">
+    <el-form ref="postForm" :model="postForm" :rules="ruleForm">
       <el-row>
         <el-col>
           <el-form-item prop="username" :label="fields.username" :label-width="labelWidth">
@@ -72,7 +72,7 @@ import api from '@/api'
 // data
 import { fields } from '../modules/fields'
 import { rolesAry } from '@/libs/roles'
-import { DetailRule as rulesForm, DetailPasswordRule as rulesPassword } from '../modules/rules'
+import { DetailRule as ruleForm, DetailPasswordRule as rulesPassword } from '../modules/rules'
 // function
 import { CryptoJsEncode } from '@/libs/cryptojs'
 // mixin
@@ -90,7 +90,7 @@ export default {
   data() {
     return {
       fields,
-      rulesForm,
+      ruleForm,
       rulesPassword,
       postForm: {
         roles: ['user'],
@@ -124,10 +124,10 @@ export default {
     const updateId = +this.$route.params.id
     if (updateId) {
       this.updateId = updateId
-      this.rulesForm.password = this.rulesPassword.updatePassword
+      this.ruleForm.password = this.rulesPassword.updatePassword
       this.getData()
     } else {
-      this.rulesForm.password = this.rulesPassword.createPassword
+      this.ruleForm.password = this.rulesPassword.createPassword
     }
   },
   methods: {

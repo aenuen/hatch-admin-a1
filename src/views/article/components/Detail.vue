@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form ref="postForm" :model="postForm" :rules="rulesForm">
+    <el-form ref="postForm" :model="postForm" :rules="ruleForm">
       <!-- 标题 -->
       <el-row>
         <el-col>
@@ -68,7 +68,7 @@ import Multi from '@/components/Upload/Multi'
 import TinyMCE from '@/components/TinyMCE'
 // data
 import { fields } from '../modules/fields.js'
-import { rules as rulesForm } from '../modules/rules.js'
+import { rules as ruleForm } from '../modules/rules.js'
 // filter
 // function
 import { gainDictList } from '@/libs/dict'
@@ -90,7 +90,7 @@ export default {
     return {
       api,
       fields,
-      rulesForm,
+      ruleForm,
       newsTypeAry: [],
       fileList: [],
       fileAry: [],

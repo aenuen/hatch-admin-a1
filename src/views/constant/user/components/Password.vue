@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form ref="postForm" :model="postForm" :rules="rulesForm" style="margin: 30px 50px">
+    <el-form ref="postForm" :model="postForm" :rules="ruleForm" style="margin: 30px 50px">
       <el-row>
         <el-col>
           <el-form-item prop="passwordOld" :label="`旧${fields.password}`" :label-width="labelWidth">
@@ -35,7 +35,7 @@ import api from '@/api'
 // components
 // data
 import { fields } from '../modules/fields'
-import { PasswordRule as rulesForm } from '../modules/rules'
+import { PasswordRule as ruleForm } from '../modules/rules'
 // filter
 // function
 // mixin
@@ -50,16 +50,16 @@ export default {
   data() {
     return {
       fields,
-      rulesForm,
+      ruleForm,
       postForm: {
         passwordOld: '',
         passwordNew: '',
-        passwordRep: ''
-      }
+        passwordRep: '',
+      },
     }
   },
   computed: {
-    ...mapGetters(['aid'])
+    ...mapGetters(['aid']),
   },
   methods: {
     submitPassword() {
@@ -102,8 +102,8 @@ export default {
           }
         })
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

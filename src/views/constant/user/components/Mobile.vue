@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form ref="postForm" :model="postForm" :rules="rulesForm">
+    <el-form ref="postForm" :model="postForm" :rules="ruleForm">
       <el-row>
         <el-col>
           <el-form-item :label="`我的${fields.mobile}`" :label-width="labelWidth">
@@ -28,7 +28,7 @@ import api from '@/api'
 // components
 // data
 import { fields } from '../modules/fields'
-import { MobileRule as rulesForm } from '../modules/rules'
+import { MobileRule as ruleForm } from '../modules/rules'
 // filter
 // function
 // mixin
@@ -42,11 +42,11 @@ export default {
   data() {
     return {
       fields,
-      rulesForm
+      ruleForm,
     }
   },
   computed: {
-    ...mapGetters(['aid', 'mobile'])
+    ...mapGetters(['aid', 'mobile']),
   },
   methods: {
     submitAction() {
@@ -81,8 +81,8 @@ export default {
           }
         })
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

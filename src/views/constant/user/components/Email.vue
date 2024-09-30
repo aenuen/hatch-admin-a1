@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form ref="postForm" :model="postForm" :rules="rulesForm" style="margin: 30px 50px">
+    <el-form ref="postForm" :model="postForm" :rules="ruleForm" style="margin: 30px 50px">
       <el-row>
         <el-col>
           <el-form-item :label="`我的${fields.email}`" :label-width="labelWidth">
@@ -28,7 +28,7 @@ import api from '@/api'
 // components
 // data
 import { fields } from '../modules/fields'
-import { EmailRule as rulesForm } from '../modules/rules'
+import { EmailRule as ruleForm } from '../modules/rules'
 // filter
 // function
 // mixin
@@ -42,11 +42,11 @@ export default {
   data() {
     return {
       fields,
-      rulesForm
+      ruleForm,
     }
   },
   computed: {
-    ...mapGetters(['aid', 'email'])
+    ...mapGetters(['aid', 'email']),
   },
   methods: {
     submitAction() {
@@ -81,7 +81,7 @@ export default {
           }
         })
       }
-    }
-  }
+    },
+  },
 }
 </script>

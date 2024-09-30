@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form ref="postForm" :model="postForm" :rules="rulesForm">
+    <el-form ref="postForm" :model="postForm" :rules="ruleForm">
       <el-form-item :label-width="labelWidth">
         <el-button :type="cutterControl ? 'primary' : 'default'" class="el-icon-upload" @click="cutterToggle"> 上传头像 </el-button>
       </el-form-item>
@@ -61,11 +61,11 @@ export default {
     return {
       fields,
       avatarList: [],
-      cutterControl: false
+      cutterControl: false,
     }
   },
   computed: {
-    ...mapGetters(['aid', 'avatar'])
+    ...mapGetters(['aid', 'avatar']),
   },
   mounted() {
     this.getAvatarList()
@@ -115,7 +115,7 @@ export default {
     // 删除头像
     removeAvatar(avatar) {
       this.$confirm('删除后将无法恢复，确定继续删除吗？', '温馨提示', {
-        type: 'warning'
+        type: 'warning',
       })
         .then(() => {
           api.user.avatarRemove({ id: this.aid, avatar }).then(({ msg, code }) => {
@@ -131,8 +131,8 @@ export default {
         .catch(() => {
           this.$message.info('取消删除')
         })
-    }
-  }
+    },
+  },
 }
 </script>
 
