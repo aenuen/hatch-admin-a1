@@ -34,6 +34,7 @@ export default {
       bgFour: {
         backgroundImage: `url(${bg4})`,
       },
+      redirect: undefined,
     }
   },
   computed: {
@@ -57,6 +58,13 @@ export default {
     },
   },
   methods: {
+    // 获取其它参数
+    getOtherQuery(query) {
+      return Object.keys(query).reduce((acc, cur) => {
+        if (cur !== 'redirect') acc[cur] = query[cur]
+        return acc
+      }, {})
+    },
     // 开始处理
     startHandle() {
       this.selectRoles()
@@ -87,13 +95,6 @@ export default {
           this.useBg = this.bgOne
           break
       }
-    },
-    // 获取其它参数
-    getOtherQuery(query) {
-      return Object.keys(query).reduce((acc, cur) => {
-        if (cur !== 'redirect') acc[cur] = query[cur]
-        return acc
-      }, {})
     },
   },
 }

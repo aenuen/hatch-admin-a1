@@ -33,9 +33,9 @@
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
-          <el-input ref="password" v-model="postForm.password" :placeholder="fields.password" :type="passwordType" tabindex="3" autocomplete="off" maxlength="30" @keyup.native="checkCapsLock" @blur="capsTooltip = false" @keyup.enter.native="submitForm" />
-          <span class="showPwd" @click="showPwd">
-            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+          <el-input ref="password" v-model="postForm.password" :placeholder="fields.password" :type="inputType" tabindex="3" autocomplete="off" maxlength="30" @keyup.native="checkCapsLock" @blur="capsTooltip = false" @keyup.enter.native="submitForm" />
+          <span class="showPassword" @click="showPassword">
+            <svg-icon :icon-class="inputType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
       </el-tooltip>
@@ -55,37 +55,29 @@ import api from '@/api'
 // mixins
 import DetailMixin from '@/components/Mixins/DetailMixin'
 import MethodsMixin from '@/components/Mixins/MethodsMixin'
+import CapsTooltipMixin from '@/components/Mixins/CapsTooltipMixin'
 import CountdownMixin from '@/components/Mixins/CountdownMixin'
+import ShowPasswordMixin from '@/components/Mixins/ShowPasswordMixin'
 import Tbg from '../login/mixins/Tbg'
 // data
 import { fields, someText } from '../login/modules/fields'
+import { registerLinksAry as linkAry } from '../login/modules/links'
 import { ruleForm } from '../login/modules/rules.js'
 // plugins
 import { CryptoJsEncode } from '@/libs/cryptojs'
 import { holdNumber, holdLetterNumber, formatMobile } from 'abbott-methods/import'
 // settings
+import { isDevMode } from '@/set/mode.js'
 export default {
-  name: 'LoginIndex',
-  mixins: [DetailMixin, MethodsMixin, CountdownMixin, Tbg],
+  name: 'RegisterIndex',
+  mixins: [DetailMixin, MethodsMixin, CapsTooltipMixin, CountdownMixin, ShowPasswordMixin, Tbg],
   data() {
     return {
       api,
       fields,
       someText,
       ruleForm,
-      postForm: {
-        telephone: '13055297726',
-        telCode: '123123',
-        password: 'ee123123',
-      },
-      passwordType: 'password',
-      capsTooltip: false,
-      redirect: undefined,
-      authCode: '',
-      linkAry: [
-        { name: someText.toLogin, url: '/login' },
-        { name: someText.toFind, url: '/find' },
-      ],
+      linkAry,
       countdownCookie: 'RegisterCountdownCookie',
     }
   },
@@ -96,6 +88,17 @@ export default {
     'postForm.telCode': function (value) {
       this.postForm.telCode = holdLetterNumber(value)
     },
+  },
+  mounted() {
+    if (isDevMode) {
+      this.postForm = {
+        ...{
+          telephone: '13055297726',
+          telCode: '123123',
+          password: 'ee123123',
+        },
+      }
+    }
   },
   methods: {
     // 获取短信验证码
@@ -125,14 +128,9 @@ export default {
         this.$refs.telephone.focus()
       }
     },
-    // 大写提示
-    checkCapsLock(e) {
-      const { key } = e
-      this.capsTooltip = key && key.length === 1 && key >= 'A' && key <= 'Z'
-    },
     // 显示|隐藏密码
     showPwd() {
-      this.passwordType = this.passwordType === 'password' ? '' : 'password'
+      this.inputType = this.inputType === 'password' ? '' : 'password'
       this.$nextTick(() => this.$refs.password.focus()) // 自动聚焦
     },
     // 注册

@@ -20,9 +20,9 @@
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
-          <el-input ref="password" v-model="postForm.password" :placeholder="fields.password" :type="passwordType" tabindex="2" autocomplete="off" maxlength="30" @keyup.native="checkCapsLock" @blur="capsTooltip = false" @keyup.enter.native="submitForm" />
-          <span class="showPwd" @click="showPwd">
-            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+          <el-input ref="password" v-model="postForm.password" :placeholder="fields.password" :type="inputType" tabindex="2" autocomplete="off" maxlength="30" @keyup.native="checkCapsLock" @blur="capsTooltip = false" @keyup.enter.native="submitForm" />
+          <span class="showPwd" @click="showPassword">
+            <svg-icon :icon-class="inputType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
       </el-tooltip>
@@ -51,9 +51,12 @@
 <script>
 // mixins
 import DetailMixin from '@/components/Mixins/DetailMixin'
+import CapsTooltipMixin from '@/components/Mixins/CapsTooltipMixin'
+import ShowPasswordMixin from '@/components/Mixins/ShowPasswordMixin'
 import Tbg from './mixins/Tbg'
 // data
 import { fields, someText } from './modules/fields'
+import { logoLinksAry as linkAry } from './modules/links.js'
 import { ruleForm } from './modules/rules.js'
 // plugins
 import { CryptoJsEncode } from '@/libs/cryptojs'
@@ -61,27 +64,17 @@ import { v4 as uuidV4 } from 'uuid'
 import { holdNumber, holdLetterNumber } from 'abbott-methods/import'
 // settings
 import { baseApi } from '@/set/http.js'
+import { isDevMode } from '@/set/mode.js'
 export default {
   name: 'LoginIndex',
-  mixins: [DetailMixin, Tbg],
+  mixins: [DetailMixin, CapsTooltipMixin, ShowPasswordMixin, Tbg],
   data() {
     return {
       fields,
       someText,
       ruleForm,
-      postForm: {
-        telephone: '13055297726',
-        password: 'ee123123',
-        code: '',
-      },
-      passwordType: 'password',
-      capsTooltip: false,
-      redirect: undefined,
       authCode: '',
-      linkAry: [
-        { name: someText.toRegister, url: '/register' },
-        { name: someText.toFind, url: '/find' },
-      ],
+      linkAry,
     }
   },
   watch: {
@@ -94,18 +87,16 @@ export default {
   },
   mounted() {
     this.refreshCode()
+    if (isDevMode) {
+      this.postForm = {
+        ...{
+          telephone: '13055297726',
+          password: 'ee123123',
+        },
+      }
+    }
   },
   methods: {
-    // 大写提示
-    checkCapsLock(e) {
-      const { key } = e
-      this.capsTooltip = key && key.length === 1 && key >= 'A' && key <= 'Z'
-    },
-    // 显示|隐藏密码
-    showPwd() {
-      this.passwordType = this.passwordType === 'password' ? '' : 'password'
-      this.$nextTick(() => this.$refs.password.focus()) // 自动聚焦
-    },
     // 刷新验证码
     refreshCode() {
       this.uuid = uuidV4()
