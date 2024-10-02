@@ -11,7 +11,7 @@ const state = {
   mobile: '',
   avatar: '',
   introduction: '',
-  roles: []
+  roles: [],
 }
 
 const mutations = {
@@ -41,30 +41,30 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
-  }
+  },
 }
 
 const actions = {
   // 用户登录
   login({ commit }, userInfo) {
-    const { username, password } = userInfo
+    const { username, password, uuid, code } = userInfo
     return new Promise((resolve, reject) => {
+      const form = {
+        username: username.trim(),
+        password: password,
+        uuid: uuid.trim(),
+        code: code.trim(),
+      }
       api.user
-        .login({
-          username: username.trim(),
-          password: password
-        })
-        .then(({ code, data }) => {
-          if (code === 200) {
-            const { token } = data
-            commit('SET_TOKEN', token)
-            setToken(token)
-            resolve()
-          } else {
-            reject('登录失败')
-          }
+        .login(form)
+        .then(({ data }) => {
+          const { token } = data
+          commit('SET_TOKEN', token)
+          setToken(token)
+          resolve()
         })
         .catch((error) => {
+          console.log('🚀 ~ returnnewPromise ~ error', error)
           reject(error)
         })
     })
@@ -166,12 +166,12 @@ const actions = {
     router.addRoutes(accessRoutes)
     // 重置访问的视图和缓存的视图
     dispatch('tagsView/delAllViews', null, { root: true })
-  }
+  },
 }
 
 export default {
   namespaced: true,
   state,
   mutations,
-  actions
+  actions,
 }

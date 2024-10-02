@@ -8,11 +8,11 @@
         <div class="formTitle">{{ userRoles }}登录</div>
       </div>
       <!-- 手机号码 -->
-      <el-form-item prop="telephone">
+      <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="mobile" />
         </span>
-        <el-input ref="telephone" v-model="postForm.telephone" :placeholder="fields.telephone" type="text" tabindex="1" autocomplete="off" maxlength="11" @keyup.enter.native="submitForm" />
+        <el-input ref="username" v-model="postForm.username" :placeholder="fields.username" type="text" tabindex="1" autocomplete="off" maxlength="11" @keyup.enter.native="submitForm" />
       </el-form-item>
       <!-- 密码 -->
       <el-tooltip v-model="capsTooltip" :content="someText.capsLock" placement="right" manual>
@@ -35,7 +35,7 @@
           <el-input ref="code" v-model="postForm.code" type="text" :placeholder="fields.code" tabindex="3" autocomplete="off" maxlength="6" @keyup.enter.native="submitForm" />
         </el-form-item>
         <div class="authCode">
-          <el-image :src="authCode" @click="refreshCode" />
+          <div @click="refreshCode" v-html="authCode" />
         </div>
       </div>
       <!-- 按钮 -->
@@ -49,6 +49,8 @@
 </template>
 
 <script>
+// api
+import api from '@/api'
 // mixins
 import DetailMixin from '@/components/Mixins/DetailMixin'
 import CapsTooltipMixin from '@/components/Mixins/CapsTooltipMixin'
@@ -61,15 +63,16 @@ import { ruleForm } from './modules/rules.js'
 // plugins
 import { CryptoJsEncode } from '@/libs/cryptojs'
 import { v4 as uuidV4 } from 'uuid'
-import { holdNumber, holdLetterNumber } from 'abbott-methods/import'
+import { holdLetterNumber } from 'abbott-methods/import'
+// import { setToken } from '@/libs/token'
 // settings
-import { baseApi } from '@/set/http.js'
 import { isDevMode } from '@/set/mode.js'
 export default {
   name: 'LoginIndex',
   mixins: [DetailMixin, CapsTooltipMixin, ShowPasswordMixin, Tbg],
   data() {
     return {
+      api,
       fields,
       someText,
       ruleForm,
@@ -78,9 +81,6 @@ export default {
     }
   },
   watch: {
-    'postForm.telephone': function (value) {
-      this.postForm.telephone = holdNumber(value)
-    },
     'postForm.code': function (value) {
       this.postForm.code = holdLetterNumber(value)
     },
@@ -90,7 +90,7 @@ export default {
     if (isDevMode) {
       this.postForm = {
         ...{
-          telephone: '13055297726',
+          username: 'admin',
           password: 'ee123123',
         },
       }
@@ -100,14 +100,21 @@ export default {
     // 刷新验证码
     refreshCode() {
       this.uuid = uuidV4()
-      this.authCode = `${baseApi}/user/getCode?codeId=${this.uuid}&timestamp=${Date.now()}`
+      api.publics
+        .captcha({
+          sid: this.uuid,
+          fontSize: 40,
+        })
+        .then(({ data }) => {
+          this.authCode = data
+        })
     },
-    // 登录
+    // 提交处理
     submitHandle() {
       const form = {
-        telephone: CryptoJsEncode(this.postForm.telephone),
+        username: CryptoJsEncode(this.postForm.username),
         password: CryptoJsEncode(this.postForm.password),
-        codeId: this.uuid,
+        uuid: this.uuid,
         code: this.postForm.code,
       }
       this.$store
@@ -116,7 +123,8 @@ export default {
           this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
           this.submitLoadingClose()
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log('🚀 ~ submitHandle ~ err', err)
           this.refreshCode()
           this.submitLoadingClose()
         })

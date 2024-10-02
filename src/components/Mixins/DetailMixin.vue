@@ -28,20 +28,27 @@ export default {
     this.startHandle()
   },
   methods: {
+    // 获得详情
     gainDetail() {},
+    // 开始处理
     startHandle() {},
+    // 打开加载
     submitLoadingOpen() {
       this.submitLoading = true
     },
+    // 关闭加载
     submitLoadingClose() {
       this.submitLoading = false
     },
+    // 验证错误处理
     validateErrHandle(fields) {
       const msg = validateErrMsg(fields)
       this.$message.error(msg)
       this.submitLoadingClose()
     },
+    // 提交处理
     submitHandle() {},
+    // 提交表单
     submitForm() {
       this.$refs.postForm.validate((valid, fields) => {
         this.submitLoadingOpen()

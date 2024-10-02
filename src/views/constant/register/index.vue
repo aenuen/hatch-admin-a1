@@ -8,11 +8,11 @@
         <div class="formTitle">{{ userRoles }}注册</div>
       </div>
       <!-- 手机号码 -->
-      <el-form-item prop="telephone">
+      <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="mobile" />
         </span>
-        <el-input ref="telephone" v-model="postForm.telephone" :placeholder="fields.telephone" type="text" tabindex="1" autocomplete="off" maxlength="11" @keyup.enter.native="submitForm" />
+        <el-input ref="username" v-model="postForm.username" :placeholder="fields.username" type="text" tabindex="1" autocomplete="off" maxlength="11" @keyup.enter.native="submitForm" />
       </el-form-item>
       <!-- 短信验证码 -->
       <div class="telCode">
@@ -65,7 +65,7 @@ import { registerLinksAry as linkAry } from '../login/modules/links'
 import { ruleForm } from '../login/modules/rules.js'
 // plugins
 import { CryptoJsEncode } from '@/libs/cryptojs'
-import { holdNumber, holdLetterNumber, formatMobile } from 'abbott-methods/import'
+import { holdLetterNumber, formatMobile } from 'abbott-methods/import'
 // settings
 import { isDevMode } from '@/set/mode.js'
 export default {
@@ -82,9 +82,6 @@ export default {
     }
   },
   watch: {
-    'postForm.telephone': function (value) {
-      this.postForm.telephone = holdNumber(value)
-    },
     'postForm.telCode': function (value) {
       this.postForm.telCode = holdLetterNumber(value)
     },
@@ -93,7 +90,7 @@ export default {
     if (isDevMode) {
       this.postForm = {
         ...{
-          telephone: '13055297726',
+          username: '13055297726',
           telCode: '123123',
           password: 'ee123123',
         },
@@ -104,11 +101,11 @@ export default {
     // 获取短信验证码
     getTelCode() {
       this.submitLoadingOpen()
-      const { telephone } = this.postForm
-      if (telephone.length > 0) {
-        if (formatMobile(telephone)) {
+      const { username } = this.postForm
+      if (username.length > 0) {
+        if (formatMobile(username)) {
           api.user
-            .getRegSMS(telephone)
+            .getRegSMS(username)
             .then(() => {
               this.$message.success('短信验证码已发达，请在1分钟内进行找回密码')
               this.playCountdown()
@@ -120,12 +117,12 @@ export default {
         } else {
           this.submitLoadingClose()
           this.$message.error('请先输入正确的手机号码')
-          this.$refs.telephone.focus()
+          this.$refs.username.focus()
         }
       } else {
         this.submitLoadingClose()
         this.$message.error('请先输入手机号码')
-        this.$refs.telephone.focus()
+        this.$refs.username.focus()
       }
     },
     // 显示|隐藏密码
@@ -136,7 +133,7 @@ export default {
     // 注册
     submitHandle() {
       const form = {
-        telephone: CryptoJsEncode(this.postForm.telephone),
+        username: CryptoJsEncode(this.postForm.username),
         password: CryptoJsEncode(this.postForm.password),
         telCode: this.postForm.telCode,
       }
