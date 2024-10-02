@@ -4,6 +4,7 @@ export const ruleForm = {
   telephone: [{ validator: (rule, value, callback) => validateMobile(rule, value, callback, fields.telephone) }],
   newTel: [{ validator: (rule, value, callback) => validateMobile(rule, value, callback, fields.newTel) }],
   password: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.password, '', 6, 30) }],
+  oldPwd: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.oldPwd, '', 6, 30) }],
   newPwd: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.newPwd, '', 6, 30) }],
   conPwd: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.conPwd, '', 6, 30) }],
   code: [{ validator: (rule, value, callback) => validateRequire(rule, value, callback, fields.code) }],

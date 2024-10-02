@@ -1,6 +1,12 @@
 export const fields = {
-  telephone: '手机号码',
+  username: '用户名',
+  petName: '昵称',
+  realName: '真实姓名',
+  introduction: '个人简介',
+  mobile: '手机号码',
   newTel: '新手机号码',
+  email: '电子邮箱',
+  newEmail: '新电子邮箱',
   password: '密码',
   oldPwd: '旧密码',
   newPwd: '新密码',

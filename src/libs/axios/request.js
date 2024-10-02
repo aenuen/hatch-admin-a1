@@ -52,9 +52,9 @@ service.interceptors.response.use(
     const { code, msg } = error.response.data
     Message({ message: msg || '', type: 'error', duration: 5 * 1000 })
     if (code === tokenCode) {
-      setTimeout(() => {
-        location.reload()
-      }, 1000)
+      // setTimeout(() => {
+      //   location.reload()
+      // }, 1000)
     }
     return Promise.reject(error)
   },

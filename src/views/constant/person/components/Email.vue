@@ -3,20 +3,20 @@
     <el-form ref="postForm" :model="postForm" :rules="ruleForm">
       <el-row>
         <el-col>
-          <el-form-item :label="`我的${fields.email}`" :label-width="labelWidth">
+          <el-form-item :label="fields.email" :label-width="labelWidth">
             {{ `：${email}` }}
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col>
-          <el-form-item prop="newEmail" :label="`新的${fields.email}`" :label-width="labelWidth">
-            <el-input v-model.trim="postForm.newEmail" :placeholder="`请输入新的${fields.email}`" maxlength="30" :style="fws" clearable @keyup.enter.native="submitAction" />
+          <el-form-item prop="newEmail" :label="fields.newEmail" :label-width="labelWidth">
+            <el-input v-model.trim="postForm.newEmail" :placeholder="fields.newEmail" maxlength="30" :style="fws" clearable @keyup.enter.native="submitForm" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-form-item :label-width="labelWidth">
-        <el-button v-loading="submitLoading" type="primary" :disabled="submitLoading" @click="submitAction"> 修改电子邮箱 </el-button>
+        <el-button v-loading="submitLoading" type="primary" :disabled="submitLoading" @click="submitForm"> {{ submitText }} </el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -27,8 +27,8 @@
 import api from '@/api'
 // components
 // data
-import { fields } from '../modules/fields'
-import { EmailRule as ruleForm } from '../modules/rules'
+import { fields } from '../../login/modules/fields'
+import { ruleForm } from '../../login/modules/rules'
 // filter
 // function
 // mixin
@@ -48,38 +48,32 @@ export default {
   computed: {
     ...mapGetters(['aid', 'email']),
   },
+  mounted() {
+    this.submitText = '修改电子邮箱'
+  },
   methods: {
-    submitAction() {
-      if (!this.submitLoading) {
-        this.submitLoadingOpen()
-        this.$refs.postForm.validate((valid, fields) => {
-          if (valid) {
-            if (this.email === this.postForm.newEmail) {
-              this.$message.error('新旧密码一致无须修改')
+    submitHandle() {
+      if (this.email === this.postForm.newEmail) {
+        this.$message.error('新旧密码一致无须修改')
+        this.submitLoadingClose()
+      } else {
+        this.postForm = { ...this.postForm, id: this.aid, email: this.email }
+        api.person
+          .email(this.postForm)
+          .then(({ code, msg }) => {
+            if (code === 200) {
+              this.$message.success(msg)
               this.submitLoadingClose()
+              this.$store.commit('user/SET_EMAIL', this.postForm.newEmail)
+              this.$refs.postForm.resetFields()
             } else {
-              this.postForm.id = this.aid
-              api.user
-                .email(this.postForm)
-                .then(({ code, msg }) => {
-                  if (code === 200) {
-                    this.$message.success(msg)
-                    this.submitLoadingClose()
-                    this.$store.commit('user/SET_EMAIL', this.postForm.newEmail)
-                    this.$refs.postForm.resetFields()
-                  } else {
-                    this.$message.error(msg)
-                    this.submitLoadingClose()
-                  }
-                })
-                .catch(() => {
-                  this.submitLoadingClose()
-                })
+              this.$message.error(msg)
+              this.submitLoadingClose()
             }
-          } else {
-            this.validateErrHandle(fields)
-          }
-        })
+          })
+          .catch(() => {
+            this.submitLoadingClose()
+          })
       }
     },
   },

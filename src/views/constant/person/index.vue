@@ -64,7 +64,7 @@ export default {
   data() {
     return {
       rolesCn: '',
-      NoneImage: require('@/assets/images/noneImage.png'),
+      noneImage: require('@/assets/images/noneImage.png'),
       formatInvalidPicture,
     }
   },

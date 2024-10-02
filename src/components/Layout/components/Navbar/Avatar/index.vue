@@ -11,7 +11,7 @@
         <router-link to="/">
           <el-dropdown-item>首页</el-dropdown-item>
         </router-link>
-        <router-link to="/user/data">
+        <router-link to="/person">
           <el-dropdown-item>我的资料</el-dropdown-item>
         </router-link>
         <el-dropdown-item divided @click.native="logout">

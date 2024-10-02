@@ -55,7 +55,7 @@ const actions = {
         uuid: uuid.trim(),
         code: code.trim(),
       }
-      api.user
+      api.login
         .login(form)
         .then(({ data }) => {
           const { token } = data
@@ -64,7 +64,6 @@ const actions = {
           resolve()
         })
         .catch((error) => {
-          console.log('🚀 ~ returnnewPromise ~ error', error)
           reject(error)
         })
     })
@@ -72,7 +71,7 @@ const actions = {
   // 获取用户信息
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      api.user
+      api.login
         .info(state.token)
         .then(({ code, data }) => {
           if (code === 200) {
@@ -102,7 +101,7 @@ const actions = {
   // 刷新token
   refreshToken({ commit, state }) {
     return new Promise((resolve, reject) => {
-      api.user
+      api.login
         .refreshToken({ id: state.aid })
         .then(({ code, data }) => {
           if (code === 200) {

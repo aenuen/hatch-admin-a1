@@ -25,7 +25,6 @@
 // api
 // components
 // data
-import noneImage from '@/assets/images/noneImage.png'
 // filter
 // function
 // mixin
@@ -43,7 +42,7 @@ export default {
     return {
       fileType,
       fileSuffixName,
-      noneImage,
+      noneImage: require('@/assets/images/noneImage.png'),
       image: '',
       isView: false,
     }

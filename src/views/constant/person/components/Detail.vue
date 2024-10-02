@@ -70,9 +70,9 @@
 // api
 import api from '@/api'
 // data
-import { fields } from '../modules/fields'
+import { fields } from '../../login/modules/fields'
 import { rolesAry } from '@/libs/roles'
-import { DetailRule as ruleForm, DetailPasswordRule as rulesPassword } from '../modules/rules'
+import { ruleForm } from '../../login/modules/rules'
 // function
 import { CryptoJsEncode } from '@/libs/cryptojs'
 // mixin
@@ -91,7 +91,6 @@ export default {
     return {
       fields,
       ruleForm,
-      rulesPassword,
       postForm: {
         roles: ['user'],
       },

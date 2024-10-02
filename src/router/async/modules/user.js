@@ -8,7 +8,7 @@ export const user = {
   meta: {
     title: '用户管理',
     icon: 'peoples',
-    roles: ['manager'],
+    roles: ['user'],
   },
   children: [
     {
@@ -17,7 +17,7 @@ export const user = {
       component: () => import('@/views/constant/user/list'),
       meta: {
         title: '用户列表',
-        roles: ['manager'],
+        roles: ['user'],
       },
     },
     {
@@ -26,7 +26,7 @@ export const user = {
       component: () => import('@/views/constant/user/create'),
       meta: {
         title: '用户添加',
-        roles: ['manager'],
+        roles: ['user'],
       },
     },
     {
@@ -35,7 +35,7 @@ export const user = {
       component: () => import('@/views/constant/user/update'),
       meta: {
         title: '用户编辑',
-        roles: ['manager'],
+        roles: ['user'],
         activeMenu: '/user/list',
       },
       hidden: true,

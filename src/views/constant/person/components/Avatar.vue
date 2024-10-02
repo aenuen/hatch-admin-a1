@@ -42,7 +42,7 @@
 import api from '@/api'
 // components
 // data
-import { fields } from '../modules/fields'
+import { fields } from '../../login/modules/fields'
 // filter
 // function
 // mixin
@@ -68,7 +68,7 @@ export default {
     ...mapGetters(['aid', 'avatar']),
   },
   mounted() {
-    this.getAvatarList()
+    this.gainAvatarList()
   },
   methods: {
     // 剪切框打开关闭切换
@@ -77,39 +77,24 @@ export default {
     },
     // 剪切成功
     onCutSuccess(res) {
-      api.user.avatarUpload({ id: this.aid, avatar: res.dataURL }).then(({ code, data, msg }) => {
-        if (code === 200) {
-          // 头像同步更新
-          this.$store.commit('user/SET_AVATAR', data)
-          // 头像加入列表尾部
-          this.avatarList.push(data)
-          // 提示成功
-          this.$message.success(msg)
-        } else {
-          // 提示失败
-          this.$message.error(msg)
-        }
+      api.person.avatarUpload({ id: this.aid, avatar: res.dataURL }).then(({ code, data, msg }) => {
+        this.$store.commit('user/SET_AVATAR', data)
+        this.avatarList.push(data)
+        this.$message.success(msg)
       })
-      // 关闭剪切窗口
       this.cutterToggle()
     },
     // 获取头像列表
-    getAvatarList() {
-      api.user.avatarList({ id: this.aid }).then(({ code, data }) => {
-        if (code === 200) {
-          this.avatarList = data
-        }
+    gainAvatarList() {
+      api.person.avatarList({ id: this.aid }).then(({ data }) => {
+        this.avatarList = data
       })
     },
     // 使用头像
     useTheAvatar(avatar) {
-      api.user.avatarUse({ id: this.aid, avatar }).then(({ msg, code }) => {
-        if (code === 200) {
-          this.$store.commit('user/SET_AVATAR', avatar)
-          this.$message.success(msg)
-        } else {
-          this.$message.error(msg)
-        }
+      api.person.avatarUse({ id: this.aid, avatar }).then(({ msg }) => {
+        this.$store.commit('user/SET_AVATAR', avatar)
+        this.$message.success(msg)
       })
     },
     // 删除头像
@@ -118,14 +103,10 @@ export default {
         type: 'warning',
       })
         .then(() => {
-          api.user.avatarRemove({ id: this.aid, avatar }).then(({ msg, code }) => {
-            if (code === 200) {
-              const newAry = aoDeleteValue(this.avatarList, avatar)
-              this.avatarList = [...newAry]
-              this.$message.success(msg)
-            } else {
-              this.$message.error(msg)
-            }
+          api.person.avatarRemove({ id: this.aid, avatar }).then(({ msg }) => {
+            const newAry = aoDeleteValue(this.avatarList, avatar)
+            this.avatarList = [...newAry]
+            this.$message.success(msg)
           })
         })
         .catch(() => {

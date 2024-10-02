@@ -3,20 +3,20 @@
     <el-form ref="postForm" :model="postForm" :rules="ruleForm">
       <el-row>
         <el-col>
-          <el-form-item :label="`我的${fields.mobile}`" :label-width="labelWidth">
+          <el-form-item :label="fields.mobile" :label-width="labelWidth">
             {{ `：${mobile}` }}
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col>
-          <el-form-item prop="newMobile" :label="`新的${fields.mobile}`" :label-width="labelWidth">
-            <el-input v-model.trim="postForm.newMobile" :placeholder="`请输入新的${fields.mobile}`" maxlength="11" :style="fws" clearable @keyup.enter.native="submitAction" />
+          <el-form-item prop="newTel" :label="fields.newTel" :label-width="labelWidth">
+            <el-input v-model.trim="postForm.newTel" :placeholder="fields.newTel" maxlength="11" :style="fws" clearable @keyup.enter.native="submitForm" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-form-item :label-width="labelWidth">
-        <el-button type="primary" :loading="submitLoading" :disabled="submitLoading" @click="submitAction"> 修改手机号码 </el-button>
+        <el-button type="primary" :loading="submitLoading" :disabled="submitLoading" @click="submitForm">{{ submitText }} </el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -27,8 +27,8 @@
 import api from '@/api'
 // components
 // data
-import { fields } from '../modules/fields'
-import { MobileRule as ruleForm } from '../modules/rules'
+import { fields } from '../../login/modules/fields'
+import { ruleForm } from '../../login/modules/rules'
 // filter
 // function
 // mixin
@@ -48,38 +48,27 @@ export default {
   computed: {
     ...mapGetters(['aid', 'mobile']),
   },
+  mounted() {
+    this.submitText = '修改手机号码'
+  },
   methods: {
-    submitAction() {
-      if (!this.submitLoading) {
-        this.submitLoadingOpen()
-        this.$refs.postForm.validate((valid, fields) => {
-          if (valid) {
-            if (this.mobile === this.postForm.newMobile) {
-              this.$message.error('新旧新手号码一致无须修改')
-              this.submitLoadingClose()
-            } else {
-              this.postForm.id = this.aid
-              api.user
-                .mobile(this.postForm)
-                .then(({ code, msg }) => {
-                  if (code === 200) {
-                    this.$message.success(msg)
-                    this.submitLoadingClose()
-                    this.$store.commit('user/SET_MOBILE', this.postForm.newMobile)
-                    this.$refs.postForm.resetFields()
-                  } else {
-                    this.$message.error(msg)
-                    this.submitLoadingClose()
-                  }
-                })
-                .catch(() => {
-                  this.submitLoadingClose()
-                })
-            }
-          } else {
-            this.validateErrHandle(fields)
-          }
-        })
+    submitHandle() {
+      if (this.mobile === this.postForm.newTel) {
+        this.$message.error('新旧新手号码一致无须修改')
+        this.submitLoadingClose()
+      } else {
+        this.postForm = { ...this.postForm, id: this.aid, mobile: this.mobile }
+        api.person
+          .mobile(this.postForm)
+          .then(({ code, msg }) => {
+            this.$message.success(msg)
+            this.submitLoadingClose()
+            this.$store.commit('user/SET_MOBILE', this.postForm.newTel)
+            this.$refs.postForm.resetFields()
+          })
+          .catch(() => {
+            this.submitLoadingClose()
+          })
       }
     },
   },

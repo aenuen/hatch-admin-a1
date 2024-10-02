@@ -23,7 +23,7 @@
         </el-col>
       </el-row>
       <el-form-item :label-width="labelWidth">
-        <el-button :loading="submitLoading" type="primary" @click="submitAction"> 修改基本资料 </el-button>
+        <el-button :loading="submitLoading" type="primary" @click="submitForm"> {{ submitText }} </el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -34,8 +34,8 @@
 import api from '@/api'
 // components
 // data
-import { fields } from '../modules/fields'
-import { BaseDataRule as ruleForm } from '../modules/rules'
+import { fields } from '../../login/modules/fields'
+import { ruleForm } from '../../login/modules/rules'
 // filter
 // function
 // mixin
@@ -55,6 +55,9 @@ export default {
   computed: {
     ...mapGetters(['aid', 'realName', 'petName', 'introduction']),
   },
+  mounted() {
+    this.submitText = '修改基本资料'
+  },
   created() {
     this.postForm = {
       ...{
@@ -66,27 +69,19 @@ export default {
     }
   },
   methods: {
-    submitAction() {
-      if (!this.submitLoading) {
-        this.submitLoadingOpen()
-        this.$refs.postForm.validate((valid, fields) => {
-          if (valid) {
-            api.user
-              .baseData(this.postForm)
-              .then((res) => {
-                const { msg } = res
-                this.$message.success(msg)
-                this.submitLoading = false
-                this.$store.commit('user/SET_PetNAME', this.postForm.petName)
-              })
-              .catch(() => {
-                this.submitLoading = false
-              })
-          } else {
-            this.validateErrHandle(fields)
-          }
+    submitHandle() {
+      api.person
+        .baseData(this.postForm)
+        .then((res) => {
+          const { msg } = res
+          this.$message.success(msg)
+          this.submitLoading = false
+          this.$store.commit('user/SET_PetNAME', this.postForm.petName)
+          this.$store.commit('user/SET_RealNAME', this.postForm.realName)
         })
-      }
+        .catch(() => {
+          this.submitLoading = false
+        })
     },
   },
 }
